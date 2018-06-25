@@ -112,15 +112,17 @@ reg [1:0] transfer_id = 'h0;
 reg completion_req_last_found = 1'b0;
 
 util_axis_fifo #(
-  .DATA_WIDTH(BYTES_PER_BURST_WIDTH+1+1),
-  .ADDRESS_WIDTH(0),
+  .WR_DATA_WIDTH(BYTES_PER_BURST_WIDTH+1+1),
+  .RD_DATA_WIDTH(BYTES_PER_BURST_WIDTH+1+1),
+  .WR_ADDRESS_WIDTH(0),
+  .RD_ADDRESS_WIDTH(0),
   .ASYNC_CLK(ASYNC_CLK_DEST_REQ)
 ) i_dest_response_fifo (
   .s_axis_aclk(dest_clk),
   .s_axis_aresetn(dest_resetn),
   .s_axis_valid(dest_response_valid),
   .s_axis_ready(dest_response_ready),
-  .s_axis_empty(),
+  .s_axis_full(),
   .s_axis_data({dest_response_data_burst_length,
                 dest_response_partial,
                 dest_response_resp_eot}),
@@ -133,7 +135,8 @@ util_axis_fifo #(
   .m_axis_data({response_dest_data_burst_length,
                 response_dest_partial,
                 response_dest_resp_eot}),
-  .m_axis_level()
+  .m_axis_level(),
+  .m_axis_empty()
 );
 
 always @(posedge req_clk)
@@ -243,7 +246,7 @@ end
 
 assign do_compl = (state == STATE_WRITE_ZRCMPL) && response_ready;
 
-// Once the last completion request from request generator is received 
+// Once the last completion request from request generator is received
 // we can wait for completions from the destination side
 always @(posedge req_clk) begin
   if (req_resetn == 1'b0) begin
@@ -256,7 +259,7 @@ always @(posedge req_clk) begin
 end
 
 // Track transfers so we can tell when did the destination completed all its
-// transfers  
+// transfers
 always @(posedge req_clk) begin
   if (req_resetn == 1'b0) begin
     transfer_id <= 'h0;
@@ -265,7 +268,7 @@ always @(posedge req_clk) begin
   end
 end
 
-// Count how many transfers we need to complete 
+// Count how many transfers we need to complete
 always @(posedge req_clk) begin
   if (req_resetn == 1'b0) begin
     to_complete_count <= 'h0;
