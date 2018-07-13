@@ -31,6 +31,7 @@ clean:
 	$(MAKE) -C axi_ad9144 clean
 	$(MAKE) -C axi_ad9152 clean
 	$(MAKE) -C axi_ad9162 clean
+	$(MAKE) -C axi_ad9208 clean
 	$(MAKE) -C axi_ad9250 clean
 	$(MAKE) -C axi_ad9265 clean
 	$(MAKE) -C axi_ad9361 clean
@@ -139,6 +140,7 @@ lib:
 	$(MAKE) -C axi_ad9144
 	$(MAKE) -C axi_ad9152
 	$(MAKE) -C axi_ad9162
+	$(MAKE) -C axi_ad9208
 	$(MAKE) -C axi_ad9250
 	$(MAKE) -C axi_ad9265
 	$(MAKE) -C axi_ad9361
