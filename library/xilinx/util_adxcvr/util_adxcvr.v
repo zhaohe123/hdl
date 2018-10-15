@@ -150,6 +150,12 @@ module util_adxcvr #(
   input   [15:0]  up_tx_wdata_0,
   output  [15:0]  up_tx_rdata_0,
   output          up_tx_ready_0,
+  input           ibert_enb_0,
+  input   [11:0]  ibert_addr_0,
+  input           ibert_wr_0,
+  input   [15:0]  ibert_wdata_0,
+  output  [15:0]  ibert_rdata_0,
+  output          ibert_ready_0,
 
   input           cpll_ref_clk_1,
   input           up_cpll_rst_1,
@@ -208,6 +214,12 @@ module util_adxcvr #(
   input   [15:0]  up_tx_wdata_1,
   output  [15:0]  up_tx_rdata_1,
   output          up_tx_ready_1,
+  input           ibert_enb_1,
+  input   [11:0]  ibert_addr_1,
+  input           ibert_wr_1,
+  input   [15:0]  ibert_wdata_1,
+  output  [15:0]  ibert_rdata_1,
+  output          ibert_ready_1,
 
   input           cpll_ref_clk_2,
   input           up_cpll_rst_2,
@@ -266,6 +278,12 @@ module util_adxcvr #(
   input   [15:0]  up_tx_wdata_2,
   output  [15:0]  up_tx_rdata_2,
   output          up_tx_ready_2,
+  input           ibert_enb_2,
+  input   [11:0]  ibert_addr_2,
+  input           ibert_wr_2,
+  input   [15:0]  ibert_wdata_2,
+  output  [15:0]  ibert_rdata_2,
+  output          ibert_ready_2,
 
   input           cpll_ref_clk_3,
   input           up_cpll_rst_3,
@@ -324,6 +342,12 @@ module util_adxcvr #(
   input   [15:0]  up_tx_wdata_3,
   output  [15:0]  up_tx_rdata_3,
   output          up_tx_ready_3,
+  input           ibert_enb_3,
+  input   [11:0]  ibert_addr_3,
+  input           ibert_wr_3,
+  input   [15:0]  ibert_wdata_3,
+  output  [15:0]  ibert_rdata_3,
+  output          ibert_ready_3,
 
   input           qpll_ref_clk_4,
   input           up_qpll_rst_4,
@@ -390,6 +414,12 @@ module util_adxcvr #(
   input   [15:0]  up_tx_wdata_4,
   output  [15:0]  up_tx_rdata_4,
   output          up_tx_ready_4,
+  input           ibert_enb_4,
+  input   [11:0]  ibert_addr_4,
+  input           ibert_wr_4,
+  input   [15:0]  ibert_wdata_4,
+  output  [15:0]  ibert_rdata_4,
+  output          ibert_ready_4,
 
   input           cpll_ref_clk_5,
   input           up_cpll_rst_5,
@@ -448,6 +478,12 @@ module util_adxcvr #(
   input   [15:0]  up_tx_wdata_5,
   output  [15:0]  up_tx_rdata_5,
   output          up_tx_ready_5,
+  input           ibert_enb_5,
+  input   [11:0]  ibert_addr_5,
+  input           ibert_wr_5,
+  input   [15:0]  ibert_wdata_5,
+  output  [15:0]  ibert_rdata_5,
+  output          ibert_ready_5,
 
   input           cpll_ref_clk_6,
   input           up_cpll_rst_6,
@@ -506,6 +542,12 @@ module util_adxcvr #(
   input   [15:0]  up_tx_wdata_6,
   output  [15:0]  up_tx_rdata_6,
   output          up_tx_ready_6,
+  input           ibert_enb_6,
+  input   [11:0]  ibert_addr_6,
+  input           ibert_wr_6,
+  input   [15:0]  ibert_wdata_6,
+  output  [15:0]  ibert_rdata_6,
+  output          ibert_ready_6,
 
   input           cpll_ref_clk_7,
   input           up_cpll_rst_7,
@@ -564,6 +606,12 @@ module util_adxcvr #(
   input   [15:0]  up_tx_wdata_7,
   output  [15:0]  up_tx_rdata_7,
   output          up_tx_ready_7,
+  input           ibert_enb_7,
+  input   [11:0]  ibert_addr_7,
+  input           ibert_wr_7,
+  input   [15:0]  ibert_wdata_7,
+  output  [15:0]  ibert_rdata_7,
+  output          ibert_ready_7,
 
   input           qpll_ref_clk_8,
   input           up_qpll_rst_8,
@@ -630,6 +678,12 @@ module util_adxcvr #(
   input   [15:0]  up_tx_wdata_8,
   output  [15:0]  up_tx_rdata_8,
   output          up_tx_ready_8,
+  input           ibert_enb_8,
+  input   [11:0]  ibert_addr_8,
+  input           ibert_wr_8,
+  input   [15:0]  ibert_wdata_8,
+  output  [15:0]  ibert_rdata_8,
+  output          ibert_ready_8,
 
   input           cpll_ref_clk_9,
   input           up_cpll_rst_9,
@@ -688,6 +742,12 @@ module util_adxcvr #(
   input   [15:0]  up_tx_wdata_9,
   output  [15:0]  up_tx_rdata_9,
   output          up_tx_ready_9,
+  input           ibert_enb_9,
+  input   [11:0]  ibert_addr_9,
+  input           ibert_wr_9,
+  input   [15:0]  ibert_wdata_9,
+  output  [15:0]  ibert_rdata_9,
+  output          ibert_ready_9,
 
   input           cpll_ref_clk_10,
   input           up_cpll_rst_10,
@@ -746,6 +806,12 @@ module util_adxcvr #(
   input   [15:0]  up_tx_wdata_10,
   output  [15:0]  up_tx_rdata_10,
   output          up_tx_ready_10,
+  input           ibert_enb_10,
+  input   [11:0]  ibert_addr_10,
+  input           ibert_wr_10,
+  input   [15:0]  ibert_wdata_10,
+  output  [15:0]  ibert_rdata_10,
+  output          ibert_ready_10,
 
   input           cpll_ref_clk_11,
   input           up_cpll_rst_11,
@@ -804,6 +870,12 @@ module util_adxcvr #(
   input   [15:0]  up_tx_wdata_11,
   output  [15:0]  up_tx_rdata_11,
   output          up_tx_ready_11,
+  input           ibert_enb_11,
+  input   [11:0]  ibert_addr_11,
+  input           ibert_wr_11,
+  input   [15:0]  ibert_wdata_11,
+  output  [15:0]  ibert_rdata_11,
+  output          ibert_ready_11,
 
   input           qpll_ref_clk_12,
   input           up_qpll_rst_12,
@@ -870,6 +942,12 @@ module util_adxcvr #(
   input   [15:0]  up_tx_wdata_12,
   output  [15:0]  up_tx_rdata_12,
   output          up_tx_ready_12,
+  input           ibert_enb_12,
+  input   [11:0]  ibert_addr_12,
+  input           ibert_wr_12,
+  input   [15:0]  ibert_wdata_12,
+  output  [15:0]  ibert_rdata_12,
+  output          ibert_ready_12,
 
   input           cpll_ref_clk_13,
   input           up_cpll_rst_13,
@@ -928,6 +1006,12 @@ module util_adxcvr #(
   input   [15:0]  up_tx_wdata_13,
   output  [15:0]  up_tx_rdata_13,
   output          up_tx_ready_13,
+  input           ibert_enb_13,
+  input   [11:0]  ibert_addr_13,
+  input           ibert_wr_13,
+  input   [15:0]  ibert_wdata_13,
+  output  [15:0]  ibert_rdata_13,
+  output          ibert_ready_13,
 
   input           cpll_ref_clk_14,
   input           up_cpll_rst_14,
@@ -986,6 +1070,12 @@ module util_adxcvr #(
   input   [15:0]  up_tx_wdata_14,
   output  [15:0]  up_tx_rdata_14,
   output          up_tx_ready_14,
+  input           ibert_enb_14,
+  input   [11:0]  ibert_addr_14,
+  input           ibert_wr_14,
+  input   [15:0]  ibert_wdata_14,
+  output  [15:0]  ibert_rdata_14,
+  output          ibert_ready_14,
 
   input           cpll_ref_clk_15,
   input           up_cpll_rst_15,
@@ -1043,7 +1133,20 @@ module util_adxcvr #(
   input           up_tx_wr_15,
   input   [15:0]  up_tx_wdata_15,
   output  [15:0]  up_tx_rdata_15,
-  output          up_tx_ready_15);
+  output          up_tx_ready_15,
+  input           ibert_enb_15,
+  input   [11:0]  ibert_addr_15,
+  input           ibert_wr_15,
+  input   [15:0]  ibert_wdata_15,
+  output  [15:0]  ibert_rdata_15,
+  output          ibert_ready_15,
+
+ input [RX_NUM_OF_LANES-1:0]    ibert_es_rst,
+ input [RX_NUM_OF_LANES-1:0]    ibert_rx_lpmen,
+ input [RX_NUM_OF_LANES*3-1:0]  ibert_rx_rate,
+ input [RX_NUM_OF_LANES*5-1:0]  ibert_tx_diffctrl,
+ input [RX_NUM_OF_LANES*5-1:0]  ibert_tx_precursor,
+ input [RX_NUM_OF_LANES*5-1:0]  ibert_tx_postcursor);
 
   // parameters
 
@@ -1183,7 +1286,19 @@ module util_adxcvr #(
     .up_tx_wr (up_tx_wr_0),
     .up_tx_wdata (up_tx_wdata_0),
     .up_tx_rdata (up_tx_rdata_0),
-    .up_tx_ready (up_tx_ready_0));
+    .up_tx_ready (up_tx_ready_0),
+    .ibert_enb (ibert_enb_0),
+    .ibert_addr (ibert_addr_0),
+    .ibert_wr (ibert_wr_0),
+    .ibert_wdata (ibert_wdata_0),
+    .ibert_rdata (ibert_rdata_0),
+    .ibert_ready (ibert_ready_0),
+    .ibert_es_rst (ibert_es_rst[0]),
+    .ibert_rx_lpmen (ibert_rx_lpmen[0]),
+    .ibert_rx_rate (ibert_rx_rate[3*0+2:3*0]),
+    .ibert_tx_diffctrl (ibert_tx_diffctrl[5*0+4:5*0]),
+    .ibert_tx_precursor (ibert_tx_precursor[5*0+4:5*0]),
+    .ibert_tx_postcursor (ibert_tx_postcursor[5*0+4:5*0]));
   end else begin
   assign rx_out_clk_0 = 1'd0;
   assign rx_charisk_0 = 4'd0;
@@ -1203,6 +1318,8 @@ module util_adxcvr #(
   assign up_tx_rst_done_0 = 1'd0;
   assign up_tx_rdata_0 = 16'd0;
   assign up_tx_ready_0 = 1'd0;
+  assign ibert_ready_0 = 1'd0;
+  assign ibert_rdata_0 = 16'd0;
   end
   endgenerate
 
@@ -1285,7 +1402,19 @@ module util_adxcvr #(
     .up_tx_wr (up_tx_wr_1),
     .up_tx_wdata (up_tx_wdata_1),
     .up_tx_rdata (up_tx_rdata_1),
-    .up_tx_ready (up_tx_ready_1));
+    .up_tx_ready (up_tx_ready_1),
+    .ibert_enb (ibert_enb_1),
+    .ibert_addr (ibert_addr_1),
+    .ibert_wr (ibert_wr_1),
+    .ibert_wdata (ibert_wdata_1),
+    .ibert_rdata (ibert_rdata_1),
+    .ibert_ready (ibert_ready_1),
+    .ibert_es_rst (ibert_es_rst[1]),
+    .ibert_rx_lpmen (ibert_rx_lpmen[1]),
+    .ibert_rx_rate (ibert_rx_rate[3*1+2:3*1]),
+    .ibert_tx_diffctrl (ibert_tx_diffctrl[5*1+4:5*1]),
+    .ibert_tx_precursor (ibert_tx_precursor[5*1+4:5*1]),
+    .ibert_tx_postcursor (ibert_tx_postcursor[5*1+4:5*1]));
   end else begin
   assign rx_out_clk_1 = 1'd0;
   assign rx_charisk_1 = 4'd0;
@@ -1305,6 +1434,8 @@ module util_adxcvr #(
   assign up_tx_rst_done_1 = 1'd0;
   assign up_tx_rdata_1 = 16'd0;
   assign up_tx_ready_1 = 1'd0;
+  assign ibert_ready_1 = 1'd0;
+  assign ibert_rdata_1 = 16'd0;
   end
   endgenerate
 
@@ -1387,7 +1518,19 @@ module util_adxcvr #(
     .up_tx_wr (up_tx_wr_2),
     .up_tx_wdata (up_tx_wdata_2),
     .up_tx_rdata (up_tx_rdata_2),
-    .up_tx_ready (up_tx_ready_2));
+    .up_tx_ready (up_tx_ready_2),
+    .ibert_enb (ibert_enb_2),
+    .ibert_addr (ibert_addr_2),
+    .ibert_wr (ibert_wr_2),
+    .ibert_wdata (ibert_wdata_2),
+    .ibert_rdata (ibert_rdata_2),
+    .ibert_ready (ibert_ready_2),
+    .ibert_es_rst (ibert_es_rst[2]),
+    .ibert_rx_lpmen (ibert_rx_lpmen[2]),
+    .ibert_rx_rate (ibert_rx_rate[3*2+2:3*2]),
+    .ibert_tx_diffctrl (ibert_tx_diffctrl[5*2+4:5*2]),
+    .ibert_tx_precursor (ibert_tx_precursor[5*2+4:5*2]),
+    .ibert_tx_postcursor (ibert_tx_postcursor[5*2+4:5*2]));
   end else begin
   assign rx_out_clk_2 = 1'd0;
   assign rx_charisk_2 = 4'd0;
@@ -1407,6 +1550,8 @@ module util_adxcvr #(
   assign up_tx_rst_done_2 = 1'd0;
   assign up_tx_rdata_2 = 16'd0;
   assign up_tx_ready_2 = 1'd0;
+  assign ibert_ready_2 = 1'd0;
+  assign ibert_rdata_2 = 16'd0;
   end
   endgenerate
 
@@ -1489,7 +1634,19 @@ module util_adxcvr #(
     .up_tx_wr (up_tx_wr_3),
     .up_tx_wdata (up_tx_wdata_3),
     .up_tx_rdata (up_tx_rdata_3),
-    .up_tx_ready (up_tx_ready_3));
+    .up_tx_ready (up_tx_ready_3),
+    .ibert_enb (ibert_enb_3),
+    .ibert_addr (ibert_addr_3),
+    .ibert_wr (ibert_wr_3),
+    .ibert_wdata (ibert_wdata_3),
+    .ibert_rdata (ibert_rdata_3),
+    .ibert_ready (ibert_ready_3),
+    .ibert_es_rst (ibert_es_rst[3]),
+    .ibert_rx_lpmen (ibert_rx_lpmen[3]),
+    .ibert_rx_rate (ibert_rx_rate[3*3+2:3*3]),
+    .ibert_tx_diffctrl (ibert_tx_diffctrl[5*3+4:5*3]),
+    .ibert_tx_precursor (ibert_tx_precursor[5*3+4:5*3]),
+    .ibert_tx_postcursor (ibert_tx_postcursor[5*3+4:5*3]));
   end else begin
   assign rx_out_clk_3 = 1'd0;
   assign rx_charisk_3 = 4'd0;
@@ -1509,6 +1666,8 @@ module util_adxcvr #(
   assign up_tx_rst_done_3 = 1'd0;
   assign up_tx_rdata_3 = 16'd0;
   assign up_tx_ready_3 = 1'd0;
+  assign ibert_ready_3 = 1'd0;
+  assign ibert_rdata_3 = 16'd0;
   end
   endgenerate
 
@@ -1628,7 +1787,19 @@ module util_adxcvr #(
     .up_tx_wr (up_tx_wr_4),
     .up_tx_wdata (up_tx_wdata_4),
     .up_tx_rdata (up_tx_rdata_4),
-    .up_tx_ready (up_tx_ready_4));
+    .up_tx_ready (up_tx_ready_4),
+    .ibert_enb (ibert_enb_4),
+    .ibert_addr (ibert_addr_4),
+    .ibert_wr (ibert_wr_4),
+    .ibert_wdata (ibert_wdata_4),
+    .ibert_rdata (ibert_rdata_4),
+    .ibert_ready (ibert_ready_4),
+    .ibert_es_rst (ibert_es_rst[4]),
+    .ibert_rx_lpmen (ibert_rx_lpmen[4]),
+    .ibert_rx_rate (ibert_rx_rate[3*4+2:3*4]),
+    .ibert_tx_diffctrl (ibert_tx_diffctrl[5*4+4:5*4]),
+    .ibert_tx_precursor (ibert_tx_precursor[5*4+4:5*4]),
+    .ibert_tx_postcursor (ibert_tx_postcursor[5*4+4:5*4]));
   end else begin
   assign rx_out_clk_4 = 1'd0;
   assign rx_charisk_4 = 4'd0;
@@ -1648,6 +1819,8 @@ module util_adxcvr #(
   assign up_tx_rst_done_4 = 1'd0;
   assign up_tx_rdata_4 = 16'd0;
   assign up_tx_ready_4 = 1'd0;
+  assign ibert_ready_4 = 1'd0;
+  assign ibert_rdata_4 = 16'd0;
   end
   endgenerate
 
@@ -1730,7 +1903,19 @@ module util_adxcvr #(
     .up_tx_wr (up_tx_wr_5),
     .up_tx_wdata (up_tx_wdata_5),
     .up_tx_rdata (up_tx_rdata_5),
-    .up_tx_ready (up_tx_ready_5));
+    .up_tx_ready (up_tx_ready_5),
+    .ibert_enb (ibert_enb_5),
+    .ibert_addr (ibert_addr_5),
+    .ibert_wr (ibert_wr_5),
+    .ibert_wdata (ibert_wdata_5),
+    .ibert_rdata (ibert_rdata_5),
+    .ibert_ready (ibert_ready_5),
+    .ibert_es_rst (ibert_es_rst[5]),
+    .ibert_rx_lpmen (ibert_rx_lpmen[5]),
+    .ibert_rx_rate (ibert_rx_rate[3*5+2:3*5]),
+    .ibert_tx_diffctrl (ibert_tx_diffctrl[5*5+4:5*5]),
+    .ibert_tx_precursor (ibert_tx_precursor[5*5+4:5*5]),
+    .ibert_tx_postcursor (ibert_tx_postcursor[5*5+4:5*5]));
   end else begin
   assign rx_out_clk_5 = 1'd0;
   assign rx_charisk_5 = 4'd0;
@@ -1750,6 +1935,8 @@ module util_adxcvr #(
   assign up_tx_rst_done_5 = 1'd0;
   assign up_tx_rdata_5 = 16'd0;
   assign up_tx_ready_5 = 1'd0;
+  assign ibert_ready_5 = 1'd0;
+  assign ibert_rdata_5 = 16'd0;
   end
   endgenerate
 
@@ -1832,7 +2019,19 @@ module util_adxcvr #(
     .up_tx_wr (up_tx_wr_6),
     .up_tx_wdata (up_tx_wdata_6),
     .up_tx_rdata (up_tx_rdata_6),
-    .up_tx_ready (up_tx_ready_6));
+    .up_tx_ready (up_tx_ready_6),
+    .ibert_enb (ibert_enb_6),
+    .ibert_addr (ibert_addr_6),
+    .ibert_wr (ibert_wr_6),
+    .ibert_wdata (ibert_wdata_6),
+    .ibert_rdata (ibert_rdata_6),
+    .ibert_ready (ibert_ready_6),
+    .ibert_es_rst (ibert_es_rst[6]),
+    .ibert_rx_lpmen (ibert_rx_lpmen[6]),
+    .ibert_rx_rate (ibert_rx_rate[3*6+2:3*6]),
+    .ibert_tx_diffctrl (ibert_tx_diffctrl[5*6+4:5*6]),
+    .ibert_tx_precursor (ibert_tx_precursor[5*6+4:5*6]),
+    .ibert_tx_postcursor (ibert_tx_postcursor[5*6+4:5*6]));
   end else begin
   assign rx_out_clk_6 = 1'd0;
   assign rx_charisk_6 = 4'd0;
@@ -1852,6 +2051,8 @@ module util_adxcvr #(
   assign up_tx_rst_done_6 = 1'd0;
   assign up_tx_rdata_6 = 16'd0;
   assign up_tx_ready_6 = 1'd0;
+  assign ibert_ready_6 = 1'd0;
+  assign ibert_rdata_6 = 16'd0;
   end
   endgenerate
 
@@ -1934,7 +2135,19 @@ module util_adxcvr #(
     .up_tx_wr (up_tx_wr_7),
     .up_tx_wdata (up_tx_wdata_7),
     .up_tx_rdata (up_tx_rdata_7),
-    .up_tx_ready (up_tx_ready_7));
+    .up_tx_ready (up_tx_ready_7),
+    .ibert_enb (ibert_enb_7),
+    .ibert_addr (ibert_addr_7),
+    .ibert_wr (ibert_wr_7),
+    .ibert_wdata (ibert_wdata_7),
+    .ibert_rdata (ibert_rdata_7),
+    .ibert_ready (ibert_ready_7),
+    .ibert_es_rst (ibert_es_rst[7]),
+    .ibert_rx_lpmen (ibert_rx_lpmen[7]),
+    .ibert_rx_rate (ibert_rx_rate[3*7+2:3*7]),
+    .ibert_tx_diffctrl (ibert_tx_diffctrl[5*7+4:5*7]),
+    .ibert_tx_precursor (ibert_tx_precursor[5*7+4:5*7]),
+    .ibert_tx_postcursor (ibert_tx_postcursor[5*7+4:5*7]));
   end else begin
   assign rx_out_clk_7 = 1'd0;
   assign rx_charisk_7 = 4'd0;
@@ -1954,6 +2167,8 @@ module util_adxcvr #(
   assign up_tx_rst_done_7 = 1'd0;
   assign up_tx_rdata_7 = 16'd0;
   assign up_tx_ready_7 = 1'd0;
+  assign ibert_ready_7 = 1'd0;
+  assign ibert_rdata_7 = 16'd0;
   end
   endgenerate
 
@@ -2073,7 +2288,19 @@ module util_adxcvr #(
     .up_tx_wr (up_tx_wr_8),
     .up_tx_wdata (up_tx_wdata_8),
     .up_tx_rdata (up_tx_rdata_8),
-    .up_tx_ready (up_tx_ready_8));
+    .up_tx_ready (up_tx_ready_8),
+    .ibert_enb (ibert_enb_8),
+    .ibert_addr (ibert_addr_8),
+    .ibert_wr (ibert_wr_8),
+    .ibert_wdata (ibert_wdata_8),
+    .ibert_rdata (ibert_rdata_8),
+    .ibert_ready (ibert_ready_8),
+    .ibert_es_rst (ibert_es_rst[8]),
+    .ibert_rx_lpmen (ibert_rx_lpmen[8]),
+    .ibert_rx_rate (ibert_rx_rate[3*8+2:3*8]),
+    .ibert_tx_diffctrl (ibert_tx_diffctrl[5*8+4:5*8]),
+    .ibert_tx_precursor (ibert_tx_precursor[5*8+4:5*8]),
+    .ibert_tx_postcursor (ibert_tx_postcursor[5*8+4:5*8]));
   end else begin
   assign rx_out_clk_8 = 1'd0;
   assign rx_charisk_8 = 4'd0;
@@ -2093,6 +2320,8 @@ module util_adxcvr #(
   assign up_tx_rst_done_8 = 1'd0;
   assign up_tx_rdata_8 = 16'd0;
   assign up_tx_ready_8 = 1'd0;
+  assign ibert_ready_8 = 1'd0;
+  assign ibert_rdata_8 = 16'd0;
   end
   endgenerate
 
@@ -2175,7 +2404,19 @@ module util_adxcvr #(
     .up_tx_wr (up_tx_wr_9),
     .up_tx_wdata (up_tx_wdata_9),
     .up_tx_rdata (up_tx_rdata_9),
-    .up_tx_ready (up_tx_ready_9));
+    .up_tx_ready (up_tx_ready_9),
+    .ibert_enb (ibert_enb_9),
+    .ibert_addr (ibert_addr_9),
+    .ibert_wr (ibert_wr_9),
+    .ibert_wdata (ibert_wdata_9),
+    .ibert_rdata (ibert_rdata_9),
+    .ibert_ready (ibert_ready_9),
+    .ibert_es_rst (ibert_es_rst[9]),
+    .ibert_rx_lpmen (ibert_rx_lpmen[9]),
+    .ibert_rx_rate (ibert_rx_rate[3*9+2:3*9]),
+    .ibert_tx_diffctrl (ibert_tx_diffctrl[5*9+4:5*9]),
+    .ibert_tx_precursor (ibert_tx_precursor[5*9+4:5*9]),
+    .ibert_tx_postcursor (ibert_tx_postcursor[5*9+4:5*9]));
   end else begin
   assign rx_out_clk_9 = 1'd0;
   assign rx_charisk_9 = 4'd0;
@@ -2195,6 +2436,8 @@ module util_adxcvr #(
   assign up_tx_rst_done_9 = 1'd0;
   assign up_tx_rdata_9 = 16'd0;
   assign up_tx_ready_9 = 1'd0;
+  assign ibert_ready_9 = 1'd0;
+  assign ibert_rdata_9 = 16'd0;
   end
   endgenerate
 
@@ -2277,7 +2520,19 @@ module util_adxcvr #(
     .up_tx_wr (up_tx_wr_10),
     .up_tx_wdata (up_tx_wdata_10),
     .up_tx_rdata (up_tx_rdata_10),
-    .up_tx_ready (up_tx_ready_10));
+    .up_tx_ready (up_tx_ready_10),
+    .ibert_enb (ibert_enb_10),
+    .ibert_addr (ibert_addr_10),
+    .ibert_wr (ibert_wr_10),
+    .ibert_wdata (ibert_wdata_10),
+    .ibert_rdata (ibert_rdata_10),
+    .ibert_ready (ibert_ready_10),
+    .ibert_es_rst (ibert_es_rst[10]),
+    .ibert_rx_lpmen (ibert_rx_lpmen[10]),
+    .ibert_rx_rate (ibert_rx_rate[3*10+2:3*10]),
+    .ibert_tx_diffctrl (ibert_tx_diffctrl[5*10+4:5*10]),
+    .ibert_tx_precursor (ibert_tx_precursor[5*10+4:5*10]),
+    .ibert_tx_postcursor (ibert_tx_postcursor[5*10+4:5*10]));
   end else begin
   assign rx_out_clk_10 = 1'd0;
   assign rx_charisk_10 = 4'd0;
@@ -2297,6 +2552,8 @@ module util_adxcvr #(
   assign up_tx_rst_done_10 = 1'd0;
   assign up_tx_rdata_10 = 16'd0;
   assign up_tx_ready_10 = 1'd0;
+  assign ibert_ready_10 = 1'd0;
+  assign ibert_rdata_10 = 16'd0;
   end
   endgenerate
 
@@ -2379,7 +2636,19 @@ module util_adxcvr #(
     .up_tx_wr (up_tx_wr_11),
     .up_tx_wdata (up_tx_wdata_11),
     .up_tx_rdata (up_tx_rdata_11),
-    .up_tx_ready (up_tx_ready_11));
+    .up_tx_ready (up_tx_ready_11),
+    .ibert_enb (ibert_enb_11),
+    .ibert_addr (ibert_addr_11),
+    .ibert_wr (ibert_wr_11),
+    .ibert_wdata (ibert_wdata_11),
+    .ibert_rdata (ibert_rdata_11),
+    .ibert_ready (ibert_ready_11),
+    .ibert_es_rst (ibert_es_rst[11]),
+    .ibert_rx_lpmen (ibert_rx_lpmen[11]),
+    .ibert_rx_rate (ibert_rx_rate[3*11+2:3*11]),
+    .ibert_tx_diffctrl (ibert_tx_diffctrl[5*11+4:5*11]),
+    .ibert_tx_precursor (ibert_tx_precursor[5*11+4:5*11]),
+    .ibert_tx_postcursor (ibert_tx_postcursor[5*11+4:5*11]));
   end else begin
   assign rx_out_clk_11 = 1'd0;
   assign rx_charisk_11 = 4'd0;
@@ -2399,6 +2668,8 @@ module util_adxcvr #(
   assign up_tx_rst_done_11 = 1'd0;
   assign up_tx_rdata_11 = 16'd0;
   assign up_tx_ready_11 = 1'd0;
+  assign ibert_ready_11 = 1'd0;
+  assign ibert_rdata_11 = 16'd0;
   end
   endgenerate
 
@@ -2518,7 +2789,19 @@ module util_adxcvr #(
     .up_tx_wr (up_tx_wr_12),
     .up_tx_wdata (up_tx_wdata_12),
     .up_tx_rdata (up_tx_rdata_12),
-    .up_tx_ready (up_tx_ready_12));
+    .up_tx_ready (up_tx_ready_12),
+    .ibert_enb (ibert_enb_12),
+    .ibert_addr (ibert_addr_12),
+    .ibert_wr (ibert_wr_12),
+    .ibert_wdata (ibert_wdata_12),
+    .ibert_rdata (ibert_rdata_12),
+    .ibert_ready (ibert_ready_12),
+    .ibert_es_rst (ibert_es_rst[12]),
+    .ibert_rx_lpmen (ibert_rx_lpmen[12]),
+    .ibert_rx_rate (ibert_rx_rate[3*12+2:3*12]),
+    .ibert_tx_diffctrl (ibert_tx_diffctrl[5*12+4:5*12]),
+    .ibert_tx_precursor (ibert_tx_precursor[5*12+4:5*12]),
+    .ibert_tx_postcursor (ibert_tx_postcursor[5*12+4:5*12]));
   end else begin
   assign rx_out_clk_12 = 1'd0;
   assign rx_charisk_12 = 4'd0;
@@ -2538,6 +2821,8 @@ module util_adxcvr #(
   assign up_tx_rst_done_12 = 1'd0;
   assign up_tx_rdata_12 = 16'd0;
   assign up_tx_ready_12 = 1'd0;
+  assign ibert_ready_12 = 1'd0;
+  assign ibert_rdata_12 = 16'd0;
   end
   endgenerate
 
@@ -2620,7 +2905,19 @@ module util_adxcvr #(
     .up_tx_wr (up_tx_wr_13),
     .up_tx_wdata (up_tx_wdata_13),
     .up_tx_rdata (up_tx_rdata_13),
-    .up_tx_ready (up_tx_ready_13));
+    .up_tx_ready (up_tx_ready_13),
+    .ibert_enb (ibert_enb_13),
+    .ibert_addr (ibert_addr_13),
+    .ibert_wr (ibert_wr_13),
+    .ibert_wdata (ibert_wdata_13),
+    .ibert_rdata (ibert_rdata_13),
+    .ibert_ready (ibert_ready_13),
+    .ibert_es_rst (ibert_es_rst[13]),
+    .ibert_rx_lpmen (ibert_rx_lpmen[13]),
+    .ibert_rx_rate (ibert_rx_rate[3*13+2:3*13]),
+    .ibert_tx_diffctrl (ibert_tx_diffctrl[5*13+4:5*13]),
+    .ibert_tx_precursor (ibert_tx_precursor[5*13+4:5*13]),
+    .ibert_tx_postcursor (ibert_tx_postcursor[5*13+4:5*13]));
   end else begin
   assign rx_out_clk_13 = 1'd0;
   assign rx_charisk_13 = 4'd0;
@@ -2640,6 +2937,8 @@ module util_adxcvr #(
   assign up_tx_rst_done_13 = 1'd0;
   assign up_tx_rdata_13 = 16'd0;
   assign up_tx_ready_13 = 1'd0;
+  assign ibert_ready_13 = 1'd0;
+  assign ibert_rdata_13 = 16'd0;
   end
   endgenerate
 
@@ -2722,7 +3021,19 @@ module util_adxcvr #(
     .up_tx_wr (up_tx_wr_14),
     .up_tx_wdata (up_tx_wdata_14),
     .up_tx_rdata (up_tx_rdata_14),
-    .up_tx_ready (up_tx_ready_14));
+    .up_tx_ready (up_tx_ready_14),
+    .ibert_enb (ibert_enb_14),
+    .ibert_addr (ibert_addr_14),
+    .ibert_wr (ibert_wr_14),
+    .ibert_wdata (ibert_wdata_14),
+    .ibert_rdata (ibert_rdata_14),
+    .ibert_ready (ibert_ready_14),
+    .ibert_es_rst (ibert_es_rst[14]),
+    .ibert_rx_lpmen (ibert_rx_lpmen[14]),
+    .ibert_rx_rate (ibert_rx_rate[3*14+2:3*14]),
+    .ibert_tx_diffctrl (ibert_tx_diffctrl[5*14+4:5*14]),
+    .ibert_tx_precursor (ibert_tx_precursor[5*14+4:5*14]),
+    .ibert_tx_postcursor (ibert_tx_postcursor[5*14+4:5*14]));
   end else begin
   assign rx_out_clk_14 = 1'd0;
   assign rx_charisk_14 = 4'd0;
@@ -2742,6 +3053,8 @@ module util_adxcvr #(
   assign up_tx_rst_done_14 = 1'd0;
   assign up_tx_rdata_14 = 16'd0;
   assign up_tx_ready_14 = 1'd0;
+  assign ibert_ready_14 = 1'd0;
+  assign ibert_rdata_14 = 16'd0;
   end
   endgenerate
 
@@ -2824,7 +3137,19 @@ module util_adxcvr #(
     .up_tx_wr (up_tx_wr_15),
     .up_tx_wdata (up_tx_wdata_15),
     .up_tx_rdata (up_tx_rdata_15),
-    .up_tx_ready (up_tx_ready_15));
+    .up_tx_ready (up_tx_ready_15),
+    .ibert_enb (ibert_enb_15),
+    .ibert_addr (ibert_addr_15),
+    .ibert_wr (ibert_wr_15),
+    .ibert_wdata (ibert_wdata_15),
+    .ibert_rdata (ibert_rdata_15),
+    .ibert_ready (ibert_ready_15),
+    .ibert_es_rst (ibert_es_rst[15]),
+    .ibert_rx_lpmen (ibert_rx_lpmen[15]),
+    .ibert_rx_rate (ibert_rx_rate[3*15+2:3*15]),
+    .ibert_tx_diffctrl (ibert_tx_diffctrl[5*15+4:5*15]),
+    .ibert_tx_precursor (ibert_tx_precursor[5*15+4:5*15]),
+    .ibert_tx_postcursor (ibert_tx_postcursor[5*15+4:5*15]));
   end else begin
   assign rx_out_clk_15 = 1'd0;
   assign rx_charisk_15 = 4'd0;
@@ -2844,6 +3169,8 @@ module util_adxcvr #(
   assign up_tx_rst_done_15 = 1'd0;
   assign up_tx_rdata_15 = 16'd0;
   assign up_tx_ready_15 = 1'd0;
+  assign ibert_ready_15 = 1'd0;
+  assign ibert_rdata_15 = 16'd0;
   end
   endgenerate
 

@@ -130,7 +130,20 @@ module util_adxcvr_xch #(
   input           up_tx_wr,
   input   [15:0]  up_tx_wdata,
   output  [15:0]  up_tx_rdata,
-  output          up_tx_ready);
+  output          up_tx_ready,
+
+  input           ibert_enb,
+  input   [11:0]  ibert_addr,
+  input           ibert_wr,
+  input   [15:0]  ibert_wdata,
+  output  [15:0]  ibert_rdata,
+  output          ibert_ready,
+  input           ibert_es_rst,
+  input           ibert_rx_lpmen,
+  input   [ 2:0]  ibert_rx_rate,
+  input   [ 4:0]  ibert_tx_diffctrl,  // in GTHE3 4 bit, while in GTHE4 5bits
+  input   [ 4:0]  ibert_tx_precursor,
+  input   [ 4:0]  ibert_tx_postcursor);
 
   // internal registers
 
@@ -140,6 +153,8 @@ module util_adxcvr_xch #(
   reg             up_rx_ready_int = 'd0;
   reg     [15:0]  up_tx_rdata_int = 'd0;
   reg             up_tx_ready_int = 'd0;
+  reg     [15:0]  ibert_rdata_int = 'd0;
+  reg             ibert_ready_int = 'd0;
   reg     [ 2:0]  up_sel_int = 'd0;
   reg             up_enb_int = 'd0;
   reg     [11:0]  up_addr_int = 'd0;
@@ -172,6 +187,12 @@ module util_adxcvr_xch #(
   wire    [95:0]  rx_data_open_s;
   wire            cpll_locked_s;
 
+  wire    [ 2:0]  rx_rate;
+  wire            rx_lpmen;
+  wire    [ 4:0]  tx_diffctrl;
+  wire    [ 4:0]  tx_precursor;
+  wire    [ 4:0]  tx_postcursor;
+
   // pll
 
   assign up_rx_pll_locked = (up_rx_sys_clk_sel == 2'd3) ? qpll2ch_locked : cpll_locked_s;
@@ -185,6 +206,8 @@ module util_adxcvr_xch #(
   assign up_rx_ready = up_rx_ready_int;
   assign up_tx_rdata = up_tx_rdata_int;
   assign up_tx_ready = up_tx_ready_int;
+  assign ibert_rdata = ibert_rdata_int;
+  assign ibert_ready = ibert_ready_int;
 
   always @(negedge up_rstn or posedge up_clk) begin
     if (up_rstn == 1'b0) begin
@@ -194,6 +217,8 @@ module util_adxcvr_xch #(
       up_rx_ready_int <= 1'd0;
       up_tx_rdata_int <= 15'd0;
       up_tx_ready_int <= 1'd0;
+      ibert_rdata_int <= 15'd0;
+      ibert_ready_int <= 1'd0;
       up_sel_int <= 3'd0;
       up_enb_int <= 1'd0;
       up_addr_int <= 12'd0;
@@ -221,6 +246,13 @@ module util_adxcvr_xch #(
         up_tx_rdata_int <= 15'd0;
         up_tx_ready_int <= 1'd0;
       end
+      if (up_sel_int == 3'b111) begin
+        ibert_rdata_int <= up_rdata_s;
+        ibert_ready_int <= up_ready_s;
+      end else begin
+        ibert_rdata_int <= 15'd0;
+        ibert_ready_int <= 1'd0;
+      end
       if (up_sel_int[2] == 1'b1) begin
         if (up_ready_s == 1'b1) begin
           up_sel_int <= 3'b000;
@@ -247,6 +279,12 @@ module util_adxcvr_xch #(
         up_addr_int <= up_tx_addr;
         up_wr_int <= up_tx_wr;
         up_wdata_int <= up_tx_wdata;
+      end else if (ibert_enb == 1'b1) begin
+        up_sel_int <= 3'b111;
+        up_enb_int <= 1'b1;
+        up_addr_int <= ibert_addr;
+        up_wr_int <= ibert_wr;
+        up_wdata_int <= ibert_wdata;
       end else begin
         up_sel_int <= 3'b000;
         up_enb_int <= 1'b0;
@@ -283,6 +321,51 @@ module util_adxcvr_xch #(
     tx_rate_m1 <= up_tx_rate;
     tx_rate_m2 <= tx_rate_m1;
   end
+
+  util_dwrite #(
+    .DATA_WIDTH (3))
+  i_dwrite_rxrate (
+    .clk (rx_clk),
+    .reset(1'b0),
+    .din_a (rx_rate_m2),
+    .din_b (ibert_rx_rate),
+    .dout (rx_rate));
+
+  util_dwrite #(
+    .DATA_WIDTH (1))
+  i_dwrite_lpmen (
+    .clk (up_clk),
+    .reset(~up_rstn),
+    .din_a (up_rx_lpm_dfe_n),
+    .din_b (ibert_rx_lpmen),
+    .dout (rx_lpmen));
+
+  util_dwrite #(
+    .DATA_WIDTH (5))
+  i_dwrite_tx_diffctrl (
+    .clk (up_clk),
+    .reset(~up_rstn),
+    .din_a (up_tx_diffctrl),
+    .din_b (ibert_tx_diffctrl),
+    .dout (tx_diffctrl));
+
+  util_dwrite #(
+    .DATA_WIDTH (5))
+  i_dwrite_tx_precursor (
+    .clk (up_clk),
+    .reset(~up_rstn),
+    .din_a (up_tx_precursor),
+    .din_b (ibert_tx_precursor),
+    .dout (tx_precursor));
+
+  util_dwrite #(
+    .DATA_WIDTH (5))
+  i_dwrite_tx_postcursor (
+    .clk (up_clk),
+    .reset(~up_rstn),
+    .din_a (up_tx_postcursor),
+    .din_b (ibert_tx_postcursor),
+    .dout (tx_postcursor));
 
   // instantiations
 
@@ -568,7 +651,7 @@ module util_adxcvr_xch #(
     .DRPWE (up_wr_int),
     .EYESCANDATAERROR (),
     .EYESCANMODE (1'h0),
-    .EYESCANRESET (1'h0),
+    .EYESCANRESET (ibert_es_rst),
     .EYESCANTRIGGER (1'h0),
     .GTGREFCLK (1'h0),
     .GTNORTHREFCLK0 (1'h0),
@@ -643,7 +726,7 @@ module util_adxcvr_xch #(
     .RXDLYSRESET (1'h0),
     .RXELECIDLEMODE (2'h3),
     .RXGEARBOXSLIP (1'h0),
-    .RXLPMEN (up_rx_lpm_dfe_n),
+    .RXLPMEN (rx_lpmen),
     .RXLPMHFHOLD (1'h0),
     .RXLPMHFOVRDEN (1'h0),
     .RXLPMLFHOLD (1'h0),
@@ -672,7 +755,7 @@ module util_adxcvr_xch #(
     .RXPRBSERR (),
     .RXPRBSSEL (3'h0),
     .RXQPIEN (1'h0),
-    .RXRATE (rx_rate_m2),
+    .RXRATE (rx_rate),
     .RXRESETDONE (rx_rst_done_s),
     .RXSLIDE (1'h0),
     .RXSTATUS (),
@@ -695,7 +778,7 @@ module util_adxcvr_xch #(
     .TXDATA ({32'd0, tx_data}),
     .TXDEEMPH (1'h0),
     .TXDETECTRX (1'h0),
-    .TXDIFFCTRL (up_tx_diffctrl[3:0]),
+    .TXDIFFCTRL (tx_diffctrl[3:0]),
     .TXDIFFPD (1'h0),
     .TXDLYBYPASS (1'h1),
     .TXDLYEN (1'h0),
@@ -725,11 +808,11 @@ module util_adxcvr_xch #(
     .TXPISOPD (1'h0),
     .TXPMARESET (1'h0),
     .TXPOLARITY (TX_POLARITY),
-    .TXPOSTCURSOR (up_tx_postcursor),
+    .TXPOSTCURSOR (tx_postcursor),
     .TXPOSTCURSORINV (1'h0),
     .TXPRBSFORCEERR (1'h0),
     .TXPRBSSEL (3'd0),
-    .TXPRECURSOR (up_tx_precursor),
+    .TXPRECURSOR (tx_precursor),
     .TXPRECURSORINV (1'h0),
     .TXQPIBIASEN (1'h0),
     .TXQPISTRONGPDOWN (1'h0),
@@ -1203,7 +1286,7 @@ module util_adxcvr_xch #(
     .EVODDPHIXWREN (1'h0),
     .EYESCANDATAERROR (),
     .EYESCANMODE (1'h0),
-    .EYESCANRESET (1'h0),
+    .EYESCANRESET (ibert_es_rst),
     .EYESCANTRIGGER (1'h0),
     .GTGREFCLK (1'h0),
     .GTHRXN (rx_n),
@@ -1335,7 +1418,7 @@ module util_adxcvr_xch #(
     .RXHEADER (),
     .RXHEADERVALID (),
     .RXLATCLK (1'h0),
-    .RXLPMEN (up_rx_lpm_dfe_n),
+    .RXLPMEN (rx_lpmen),
     .RXLPMGCHOLD (1'h0),
     .RXLPMGCOVRDEN (1'h0),
     .RXLPMHFHOLD (1'h0),
@@ -1388,7 +1471,7 @@ module util_adxcvr_xch #(
     .RXQPIEN (1'h0),
     .RXQPISENN (),
     .RXQPISENP (),
-    .RXRATE (rx_rate_m2),
+    .RXRATE (rx_rate),
     .RXRATEDONE (),
     .RXRATEMODE (1'h0),
     .RXRECCLKOUT (),
@@ -1429,7 +1512,7 @@ module util_adxcvr_xch #(
     .TXDATAEXTENDRSVD (8'h0),
     .TXDEEMPH (1'h0),
     .TXDETECTRX (1'h0),
-    .TXDIFFCTRL (up_tx_diffctrl),
+    .TXDIFFCTRL (tx_diffctrl[3:0]),
     .TXDIFFPD (1'h0),
     .TXDLYBYPASS (1'h1),
     .TXDLYEN (1'h0),
@@ -1470,11 +1553,11 @@ module util_adxcvr_xch #(
     .TXPMARESET (1'h0),
     .TXPMARESETDONE (),
     .TXPOLARITY (TX_POLARITY),
-    .TXPOSTCURSOR (up_tx_postcursor),
+    .TXPOSTCURSOR (tx_postcursor),
     .TXPOSTCURSORINV (1'h0),
     .TXPRBSFORCEERR (1'h0),
     .TXPRBSSEL (4'h0),
-    .TXPRECURSOR (up_tx_precursor),
+    .TXPRECURSOR (tx_precursor),
     .TXPRECURSORINV (1'h0),
     .TXPRGDIVRESETDONE (),
     .TXPROGDIVRESET (up_tx_rst),
@@ -2070,7 +2153,7 @@ module util_adxcvr_xch #(
     .DRPRST (1'd0),
     .DRPWE (up_wr_int),
     .EYESCANDATAERROR (),
-    .EYESCANRESET (1'd0),
+    .EYESCANRESET (ibert_es_rst),
     .EYESCANTRIGGER (1'd0),
     .FREQOS (1'd0),
     .GTGREFCLK (1'd0),
@@ -2216,7 +2299,7 @@ module util_adxcvr_xch #(
     .RXLFPSTRESETDET (),
     .RXLFPSU2LPEXITDET (),
     .RXLFPSU3WAKEDET (),
-    .RXLPMEN (up_rx_lpm_dfe_n),
+    .RXLPMEN (rx_lpmen),
     .RXLPMGCHOLD (1'd0),
     .RXLPMGCOVRDEN (1'd0),
     .RXLPMHFHOLD (1'd0),
@@ -2263,7 +2346,7 @@ module util_adxcvr_xch #(
     .RXQPIEN (1'd0),
     .RXQPISENN (),
     .RXQPISENP (),
-    .RXRATE (rx_rate_m2),
+    .RXRATE (rx_rate),
     .RXRATEDONE (),
     .RXRATEMODE (1'd0),
     .RXRECCLKOUT (),
@@ -2307,7 +2390,7 @@ module util_adxcvr_xch #(
     .TXDCCRESET (1'd0),
     .TXDEEMPH (2'd0),
     .TXDETECTRX (1'd0),
-    .TXDIFFCTRL ({up_tx_diffctrl, 1'b0}),
+    .TXDIFFCTRL (tx_diffctrl),
     .TXDLYBYPASS (1'd1),
     .TXDLYEN (1'd0),
     .TXDLYHOLD (1'd0),
@@ -2353,10 +2436,10 @@ module util_adxcvr_xch #(
     .TXPMARESET (1'd0),
     .TXPMARESETDONE (),
     .TXPOLARITY (TX_POLARITY),
-    .TXPOSTCURSOR (up_tx_postcursor),
+    .TXPOSTCURSOR (tx_postcursor),
     .TXPRBSFORCEERR (1'd0),
     .TXPRBSSEL (4'd0),
-    .TXPRECURSOR (up_tx_precursor),
+    .TXPRECURSOR (tx_precursor),
     .TXPRGDIVRESETDONE (),
     .TXPROGDIVRESET (up_tx_rst),
     .TXQPIBIASEN (1'd0),
