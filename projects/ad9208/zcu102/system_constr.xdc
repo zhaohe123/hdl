@@ -23,8 +23,8 @@ set_property  -dict {PACKAGE_PIN  AD1 IOSTANDARD LVCMOS18} [get_ports pwdn]     
 set_property  -dict {PACKAGE_PIN  AG3 IOSTANDARD LVCMOS18} [get_ports gpio_a1]                              ; ## D11 FMC_HPC1_LA05_P
 set_property  -dict {PACKAGE_PIN  AH3 IOSTANDARD LVCMOS18} [get_ports gpio_b1]                              ; ## D12 FMC_HPC1_LA05_N
 
-set_property  -dict {PACKAGE_PIN  G27} [get_ports rx_ref_clk_p]                                             ; ## D04 FMC_HPC1_GBTCLK0_M2C_C_P
-set_property  -dict {PACKAGE_PIN  G28} [get_ports rx_ref_clk_n]                                             ; ## D05 FMC_HPC1_GBTCLK0_M2C_C_N
+set_property  -dict {PACKAGE_PIN  L27} [get_ports rx_ref_clk_p]                                             ; ## USER_MGT_SI570_CLOCK1_C_P
+set_property  -dict {PACKAGE_PIN  L28} [get_ports rx_ref_clk_n]                                             ; ## USER_MGT_SI570_CLOCK1_C_N
 
 set_property  -dict {PACKAGE_PIN  D33} [get_ports rx_data_p[0]] ; ## A02 FMC_HPC1_DP1_M2C_P
 set_property  -dict {PACKAGE_PIN  D34} [get_ports rx_data_n[0]] ; ## A03 FMC_HPC1_DP1_M2C_N
@@ -45,5 +45,5 @@ set_property  -dict {PACKAGE_PIN  K34} [get_ports rx_data_n[7]] ; ## A19 FMC_HPC
 
 # clocks
 
-create_clock -name rx_ref_clk   -period  1.333 [get_ports rx_ref_clk_p]
+create_clock -name rx_ref_clk   -period  2.666 [get_ports rx_ref_clk_p]
 create_clock -name rx_core_clk  -period  2.666 [get_ports rx_core_clk_p]

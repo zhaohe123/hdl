@@ -8,12 +8,13 @@ ad_ip_instance axi_ad9208 axi_ad9208_core
 adi_axi_jesd204_rx_create axi_ad9208_jesd 8
 
 ad_ip_instance axi_adxcvr axi_ad9208_xcvr
+ad_ip_parameter axi_ad9208_xcvr CONFIG.XCVR_TYPE 2
 ad_ip_parameter axi_ad9208_xcvr CONFIG.NUM_OF_LANES 8
-ad_ip_parameter axi_ad9208_xcvr CONFIG.QPLL_ENABLE 0
+ad_ip_parameter axi_ad9208_xcvr CONFIG.QPLL_ENABLE 1
 ad_ip_parameter axi_ad9208_xcvr CONFIG.TX_OR_RX_N 0
 ad_ip_parameter axi_ad9208_xcvr CONFIG.LPM_OR_DFE_N 1
-ad_ip_parameter axi_ad9208_xcvr CONFIG.SYS_CLK_SEL 0
-ad_ip_parameter axi_ad9208_xcvr CONFIG.OUT_CLK_SEL 2
+ad_ip_parameter axi_ad9208_xcvr CONFIG.SYS_CLK_SEL 3
+ad_ip_parameter axi_ad9208_xcvr CONFIG.OUT_CLK_SEL 3
 
 ad_ip_instance axi_dmac axi_ad9208_dma
 ad_ip_parameter axi_ad9208_dma CONFIG.DMA_TYPE_SRC 1
@@ -30,13 +31,13 @@ ad_ip_parameter axi_ad9208_dma CONFIG.DMA_DATA_WIDTH_DEST 128
 
 ad_ip_instance util_adxcvr util_ad9208_xcvr
 ad_ip_parameter util_ad9208_xcvr CONFIG.XCVR_TYPE 2
-ad_ip_parameter util_ad9208_xcvr CONFIG.QPLL_FBDIV 20
+ad_ip_parameter util_ad9208_xcvr CONFIG.QPLL_FBDIV 80
 ad_ip_parameter util_ad9208_xcvr CONFIG.QPLL_REFCLK_DIV 1
 ad_ip_parameter util_ad9208_xcvr CONFIG.CPLL_FBDIV 1
 ad_ip_parameter util_ad9208_xcvr CONFIG.TX_NUM_OF_LANES 0
 ad_ip_parameter util_ad9208_xcvr CONFIG.RX_NUM_OF_LANES 8
 ad_ip_parameter util_ad9208_xcvr CONFIG.RX_OUT_DIV 1
-ad_ip_parameter util_ad9208_xcvr CONFIG.RX_CLK25_DIV 30
+ad_ip_parameter util_ad9208_xcvr CONFIG.RX_CLK25_DIV 15
 
 ad_ip_instance util_cpack ad9208_cpack
 ad_ip_parameter ad9208_cpack CONFIG.CHANNEL_DATA_WIDTH 128
@@ -46,11 +47,10 @@ ad_ip_instance clk_wiz dma_clk_wiz
 ad_ip_parameter dma_clk_wiz CONFIG.PRIMITIVE MMCM
 ad_ip_parameter dma_clk_wiz CONFIG.RESET_TYPE ACTIVE_LOW
 ad_ip_parameter dma_clk_wiz CONFIG.USE_LOCKED false
-ad_ip_parameter dma_clk_wiz CONFIG.CLKOUT1_REQUESTED_OUT_FREQ 332.9
+ad_ip_parameter dma_clk_wiz CONFIG.CLKOUT1_REQUESTED_OUT_FREQ 300.0
 ad_ip_parameter dma_clk_wiz CONFIG.PRIM_SOURCE No_buffer
 
 ad_ip_instance proc_sys_reset sys_dma_rstgen
-
 
 # reference clocks & resets
 
@@ -85,6 +85,7 @@ ad_connect sys_dma_clk dma_clk_wiz/clk_out1
 
 ad_connect sys_dma_rstgen/slowest_sync_clk dma_clk_wiz/clk_out1
 ad_connect sys_dma_rstgen/ext_reset_in sys_rstgen/peripheral_aresetn
+ad_connect axi_ad9208_dma/m_dest_axi_aresetn sys_dma_rstgen/peripheral_aresetn
 
 ad_connect ad9208_cpack/adc_data axi_ad9208_fifo/adc_wdata
 ad_connect ad9208_cpack/adc_valid axi_ad9208_fifo/adc_wr

@@ -1,6 +1,6 @@
 
 set adc_fifo_name axi_ad9208_fifo
-set adc_fifo_address_width 16
+set adc_fifo_address_width 17
 set adc_data_width 256
 set adc_dma_data_width 128
 
