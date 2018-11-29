@@ -23,8 +23,8 @@ set_property  -dict {PACKAGE_PIN  AD1 IOSTANDARD LVCMOS18} [get_ports pwdn]     
 set_property  -dict {PACKAGE_PIN  AG3 IOSTANDARD LVCMOS18} [get_ports gpio_a1]                              ; ## D11 FMC_HPC1_LA05_P
 set_property  -dict {PACKAGE_PIN  AH3 IOSTANDARD LVCMOS18} [get_ports gpio_b1]                              ; ## D12 FMC_HPC1_LA05_N
 
-set_property  -dict {PACKAGE_PIN  L27} [get_ports rx_ref_clk_p]                                             ; ## USER_MGT_SI570_CLOCK1_C_P
-set_property  -dict {PACKAGE_PIN  L28} [get_ports rx_ref_clk_n]                                             ; ## USER_MGT_SI570_CLOCK1_C_N
+set_property  -dict {PACKAGE_PIN  J27} [get_ports rx_ref_clk_p]                                             ; ## USER_SMA_MGT_CLOCK_C_P
+set_property  -dict {PACKAGE_PIN  J28} [get_ports rx_ref_clk_n]                                             ; ## USER_SMA_MGT_CLOCK_C_N
 
 set_property  -dict {PACKAGE_PIN  D33} [get_ports rx_data_p[0]] ; ## A02 FMC_HPC1_DP1_M2C_P
 set_property  -dict {PACKAGE_PIN  D34} [get_ports rx_data_n[0]] ; ## A03 FMC_HPC1_DP1_M2C_N
@@ -42,6 +42,12 @@ set_property  -dict {PACKAGE_PIN  H33} [get_ports rx_data_p[6]] ; ## B16 FMC_HPC
 set_property  -dict {PACKAGE_PIN  H34} [get_ports rx_data_n[6]] ; ## B17 FMC_HPC1_DP6_M2C_N
 set_property  -dict {PACKAGE_PIN  K33} [get_ports rx_data_p[7]] ; ## A18 FMC_HPC1_DP5_M2C_P
 set_property  -dict {PACKAGE_PIN  K34} [get_ports rx_data_n[7]] ; ## A19 FMC_HPC1_DP5_M2C_N
+
+
+set_property  -dict {PACKAGE_PIN  A20 IOSTANDARD LVCMOS33} [get_ports pmod_spi_csn]   ; ## PMOD0_0
+set_property  -dict {PACKAGE_PIN  B20 IOSTANDARD LVCMOS33} [get_ports pmod_spi_mosi]  ; ## PMOD0_1
+set_property  -dict {PACKAGE_PIN  A22 IOSTANDARD LVCMOS33} [get_ports pmod_spi_miso]  ; ## PMOD0_2
+set_property  -dict {PACKAGE_PIN  A21 IOSTANDARD LVCMOS33} [get_ports pmod_spi_clk]   ; ## PMOD0_3
 
 # clocks
 
