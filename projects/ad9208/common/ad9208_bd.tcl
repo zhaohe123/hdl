@@ -31,13 +31,25 @@ ad_ip_parameter axi_ad9208_dma CONFIG.DMA_DATA_WIDTH_DEST 128
 
 ad_ip_instance util_adxcvr util_ad9208_xcvr
 ad_ip_parameter util_ad9208_xcvr CONFIG.XCVR_TYPE 2
-ad_ip_parameter util_ad9208_xcvr CONFIG.QPLL_FBDIV 80
+ad_ip_parameter util_ad9208_xcvr CONFIG.QPLL_FBDIV 40
 ad_ip_parameter util_ad9208_xcvr CONFIG.QPLL_REFCLK_DIV 1
-ad_ip_parameter util_ad9208_xcvr CONFIG.CPLL_FBDIV 1
 ad_ip_parameter util_ad9208_xcvr CONFIG.TX_NUM_OF_LANES 0
 ad_ip_parameter util_ad9208_xcvr CONFIG.RX_NUM_OF_LANES 8
 ad_ip_parameter util_ad9208_xcvr CONFIG.RX_OUT_DIV 1
 ad_ip_parameter util_ad9208_xcvr CONFIG.RX_CLK25_DIV 15
+
+ad_ip_parameter util_ad9208_xcvr CONFIG.POR_CFG 0x0
+ad_ip_parameter util_ad9208_xcvr CONFIG.PPF0_CFG 0xf00
+ad_ip_parameter util_ad9208_xcvr CONFIG.QPLL_CFG2 0xfc0
+ad_ip_parameter util_ad9208_xcvr CONFIG.QPLL_CFG1_G3 0xd038
+ad_ip_parameter util_ad9208_xcvr CONFIG.QPLL_CFG0 0x333c
+ad_ip_parameter util_ad9208_xcvr CONFIG.QPLL_CFG3 0x120
+ad_ip_parameter util_ad9208_xcvr CONFIG.QPLL_CFG4 0x45
+ad_ip_parameter util_ad9208_xcvr CONFIG.QPLL_CFG1 0xd038
+ad_ip_parameter util_ad9208_xcvr CONFIG.QPLL_CP_G3 0xf
+ad_ip_parameter util_ad9208_xcvr CONFIG.QPLL_LPF 0x31d
+ad_ip_parameter util_ad9208_xcvr CONFIG.QPLL_CFG2_G3 0xfc0
+ad_ip_parameter util_ad9208_xcvr CONFIG.QPLL_CP 0xff
 
 ad_ip_instance util_cpack ad9208_cpack
 ad_ip_parameter ad9208_cpack CONFIG.CHANNEL_DATA_WIDTH 128
