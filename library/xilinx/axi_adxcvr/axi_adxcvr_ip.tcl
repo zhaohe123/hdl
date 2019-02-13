@@ -221,5 +221,7 @@ set_property enablement_dependency \
 set_property enablement_dependency {spirit:decode(id('MODELPARAM_VALUE.NUM_OF_LANES')) > 15} \
   [ipx::get_bus_interfaces up_ch_15 -of_objects [ipx::current_core]]
 
+ipx::create_xgui_files [ipx::current_core]
+ipx::update_checksums [ipx::current_core]
 ipx::save_core [ipx::current_core]
 
