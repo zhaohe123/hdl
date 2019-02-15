@@ -30,13 +30,13 @@ ALTERA_DEPS += ../common/up_dac_channel.v
 ALTERA_DEPS += ../common/up_dac_common.v
 ALTERA_DEPS += ../common/up_xfer_cntrl.v
 ALTERA_DEPS += ../common/up_xfer_status.v
+ALTERA_DEPS += ../jesd204/ad_ip_jesd204_tpl_common/up_tpl_common.v
 ALTERA_DEPS += ../jesd204/ad_ip_jesd204_tpl_dac/ad_ip_jesd204_tpl_dac.v
 ALTERA_DEPS += ../jesd204/ad_ip_jesd204_tpl_dac/ad_ip_jesd204_tpl_dac_channel.v
 ALTERA_DEPS += ../jesd204/ad_ip_jesd204_tpl_dac/ad_ip_jesd204_tpl_dac_core.v
 ALTERA_DEPS += ../jesd204/ad_ip_jesd204_tpl_dac/ad_ip_jesd204_tpl_dac_framer.v
 ALTERA_DEPS += ../jesd204/ad_ip_jesd204_tpl_dac/ad_ip_jesd204_tpl_dac_pn.v
 ALTERA_DEPS += ../jesd204/ad_ip_jesd204_tpl_dac/ad_ip_jesd204_tpl_dac_regmap.v
-ALTERA_DEPS += ../jesd204/ad_ip_jesd204_tpl_common/up_tpl_common.v
 ALTERA_DEPS += axi_ad9152_hw.tcl
 
 include ../scripts/library.mk

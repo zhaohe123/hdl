@@ -13,6 +13,5 @@ LIB_DEPS += altera/adi_jesd204
 LIB_DEPS += axi_dmac
 LIB_DEPS += jesd204/ad_ip_jesd204_tpl_adc
 LIB_DEPS += util_adcfifo
-LIB_DEPS += util_cpack
 
 include ../../scripts/project-altera.mk

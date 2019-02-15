@@ -16,7 +16,6 @@ LIB_DEPS += axi_ad9144
 LIB_DEPS += axi_ad9680
 LIB_DEPS += axi_dmac
 LIB_DEPS += util_adcfifo
-LIB_DEPS += util_dacfifo
 LIB_DEPS += util_pack/util_cpack2
 LIB_DEPS += util_pack/util_upack2
 

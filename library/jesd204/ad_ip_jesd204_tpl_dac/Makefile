@@ -19,7 +19,6 @@ GENERIC_DEPS += ../../common/up_dac_channel.v
 GENERIC_DEPS += ../../common/up_dac_common.v
 GENERIC_DEPS += ../../common/up_xfer_cntrl.v
 GENERIC_DEPS += ../../common/up_xfer_status.v
-GENERIC_DEPS += ../ad_ip_jesd204_tpl_common/up_tpl_common.v
 GENERIC_DEPS += ad_ip_jesd204_tpl_dac.v
 GENERIC_DEPS += ad_ip_jesd204_tpl_dac_channel.v
 GENERIC_DEPS += ad_ip_jesd204_tpl_dac_core.v
@@ -32,6 +31,7 @@ XILINX_DEPS += ../../xilinx/common/ad_rst_constr.xdc
 XILINX_DEPS += ../../xilinx/common/up_clock_mon_constr.xdc
 XILINX_DEPS += ../../xilinx/common/up_xfer_cntrl_constr.xdc
 XILINX_DEPS += ../../xilinx/common/up_xfer_status_constr.xdc
+XILINX_DEPS += ../ad_ip_jesd204_tpl_common/up_tpl_common.v
 XILINX_DEPS += ad_ip_jesd204_tpl_dac_ip.tcl
 
 ALTERA_DEPS += ../../altera/common/ad_mul.v
