@@ -60,6 +60,7 @@ module axi_pulse_gen(
   output      [ 1:0]      s_axi_rresp,
   output      [31:0]      s_axi_rdata,
   input                   s_axi_rready,
+  input                   clk,
   output                  pulse);
     
       // internal registers
@@ -69,11 +70,11 @@ module axi_pulse_gen(
     reg             up_rack = 'd0;
     reg             up_wack_int = 'd0;
     reg             up_rack_int = 'd0;
-    reg     [31:0]  pulse_width = 'd0;
-    reg     [31:0]  pulse_period = 'd0;
+    reg     [31:0]  up_pulse_width = 'd0;
+    reg     [31:0]  up_pulse_period = 'd0;
     reg     [31:0]  up_rdata_int = 'd0;
-         
-     
+    reg             resetn;
+
      // internal signals
     
     wire            up_clk;
@@ -86,22 +87,28 @@ module axi_pulse_gen(
     wire            up_wreq_s;
     wire    [13:0]  up_waddr_s;
     wire    [31:0]  up_wdata_s;
-    
+    wire    [31:0]  pulse_width;
+    wire    [31:0]  pulse_period;
+ 
     assign up_clk = s_axi_aclk;
     assign up_rstn = s_axi_aresetn;
     
     always @(posedge up_clk) begin
         if (up_rstn == 0) begin
           up_wack_int <= 'd0;
-          pulse_period <= 'd0;
-          pulse_width <= 'd0;
+          up_pulse_period <= 'd0;
+          up_pulse_width <= 'd0; 
+          resetn <= 1'b0;
         end else begin
           up_wack_int <= up_wreq_s;
           if ((up_wreq_s == 1'b1) && (up_waddr_s[0] == 8'h0)) begin
-            pulse_period <= up_wdata_s;
+            resetn <= up_wdata_s[0];
           end
           if ((up_wreq_s == 1'b1) && (up_waddr_s[0] == 8'h1)) begin
-            pulse_width <= up_wdata_s;
+            up_pulse_period <= up_wdata_s;
+          end
+          if ((up_wreq_s == 1'b1) && (up_waddr_s[0] == 8'h2)) begin
+            up_pulse_width <= up_wdata_s;
           end
         end
       end
@@ -115,8 +122,8 @@ module axi_pulse_gen(
             up_rack_int <= up_rreq_s;
             if (up_rreq_s == 1'b1) begin
               case (up_raddr_s[0])
-                4'h0: up_rdata_int <= pulse_period;
-                4'h1: up_rdata_int <= pulse_width;                
+                4'h0: up_rdata_int <= up_pulse_period;
+                4'h1: up_rdata_int <= up_pulse_width;                
                 default: up_rdata_int <= 0;
               endcase
             end else begin
@@ -125,27 +132,44 @@ module axi_pulse_gen(
           end
         end
       
-    
+     ad_rst i_d_rst_reg (
+    	.rst_async (resetn),
+    	.clk (clk),
+    	.rstn (resetn_pulse_gen),
+    	.rst ()); 
+
+  sync_data #(
+    .NUM_OF_BITS (32),
+    .ASYNC_CLK (1)
+  ) i_pulse_period_sync (
+  .in_clk (up_clk),
+  .in_data (up_pulse_period),
+  .out_clk (clk),
+  .out_data (pulse_period)
+);
+
+  sync_data #(
+    .NUM_OF_BITS (32),
+    .ASYNC_CLK (1)
+  ) i_pulse_width_sync (
+  .in_clk (up_clk),
+  .in_data (up_pulse_width),
+  .out_clk (clk),
+  .out_data (pulse_width)
+);
+
     util_pulse_gen  #(
-    
-                     .PULSE_WIDTH(7),
-                     .PULSE_PERIOD(100000000))
-                     
-      util_pulse_gen_i(         // t_period * clk_freq
-    
-                     .clk (up_clk),
-                     .rstn (up_rstn),
-    
-                     .pulse_width (pulse_width),             
-                     .pulse_width_en (1'b1),             
-                     .pulse_period (pulse_period),             // t_period * clk_freq
-                     .pulse_period_en (1'b1),
-                     
-    
-                     .pulse (pulse)
+      .PULSE_WIDTH(7),
+      .PULSE_PERIOD(100000000))
+    util_pulse_gen_i(         // t_period * clk_freq
+      .clk (clk),
+      .rstn (resetn_pulse_gen),
+      .pulse_width (pulse_width),             
+      .pulse_width_en (1'b1),             
+      .pulse_period (pulse_period),             // t_period * clk_freq
+      .pulse_period_en (1'b1),
+      .pulse (pulse)
     );
-    
-    
     
     up_axi i_up_axi (
         .up_rstn (up_rstn),
