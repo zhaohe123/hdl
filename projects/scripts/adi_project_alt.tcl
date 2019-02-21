@@ -41,6 +41,12 @@ proc adi_project_altera {project_name} {
     set system_qip_file system_bd/system_bd.qip
   }
 
+  if [regexp "_s10soc$" $project_name] {
+    set family "Stratix 10"
+    set device 1SX280LU2F50E1VG
+    set system_qip_file system_bd/system_bd.qip
+  }
+
   if [regexp "_c5soc$" $project_name] {
     set family "Cyclone V"
     set device 5CSXFC6D6F31C8ES
