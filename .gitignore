@@ -76,4 +76,6 @@ reconfig_mif
 *.hw
 gui
 .timestamp_altera
-
+qdb
+*.bin
+*.syn.*
