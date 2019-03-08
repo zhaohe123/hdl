@@ -45,8 +45,10 @@ module axi_adc_trigger #(
 
   input                 clk,
 
+  input                 cascaded_trigger,
+
   input       [ 1:0]    trigger_i,
-  output      [ 1:0]    trigger_o,
+  output reg  [ 1:0]    trigger_o,
   output      [ 1:0]    trigger_t,
 
   input       [15:0]    data_a,
@@ -58,6 +60,7 @@ module axi_adc_trigger #(
   output      [15:0]    data_b_trig,
   output                data_valid_a_trig,
   output                data_valid_b_trig,
+  output                trigger_out,
 
   output      [31:0]    fifo_depth,
 
@@ -101,7 +104,7 @@ module axi_adc_trigger #(
   wire                  up_rreq;
   wire         [ 4:0]   up_raddr;
 
-  wire         [ 1:0]   io_selection;
+  wire         [ 5:0]   io_selection;
 
   wire         [ 1:0]   low_level;
   wire         [ 1:0]   high_level;
@@ -119,7 +122,7 @@ module axi_adc_trigger #(
   wire         [31:0]   hysteresis_b;
   wire         [ 3:0]   trigger_l_mix_b;
 
-  wire         [ 2:0]   trigger_out_mix;
+  wire         [16:0]   trigger_out_control;
   wire         [31:0]   trigger_delay;
 
   wire signed  [DW:0]   data_a_cmp;
@@ -140,7 +143,10 @@ module axi_adc_trigger #(
   wire                  trigger_a_any_edge;
   wire                  trigger_b_any_edge;
   wire                  trigger_out_delayed;
+  wire         [ 1:0]   trigger_o_s;
   wire                  streaming;
+  wire                  trigger_out_s;
+  wire                  embedded_trigger;
 
   reg                   trigger_a_d1; // synchronization flip flop
   reg                   trigger_a_d2; // synchronization flip flop
@@ -195,7 +201,7 @@ module axi_adc_trigger #(
   assign up_clk = s_axi_aclk;
   assign up_rstn = s_axi_aresetn;
 
-  assign trigger_t = io_selection;
+  assign trigger_t = io_selection[1:0];
 
   assign trigger_a_fall_edge = (trigger_a_d2 == 1'b0 && trigger_a_d3 == 1'b1) ? 1'b1: 1'b0;
   assign trigger_a_rise_edge = (trigger_a_d2 == 1'b1 && trigger_a_d3 == 1'b0) ? 1'b1: 1'b0;
@@ -209,8 +215,30 @@ module axi_adc_trigger #(
   assign limit_a_cmp  = limit_a[DW:0];
   assign limit_b_cmp  = limit_b[DW:0];
 
-  assign data_a_trig = trigger_delay == 32'h0 ? {trigger_out_mixed | streaming_on, data_a_r} : {trigger_out_delayed |streaming_on, data_a_r};
-  assign data_b_trig = trigger_delay == 32'h0 ? {trigger_out_mixed | streaming_on, data_b_r} : {trigger_out_delayed |streaming_on, data_b_r};
+  always @(*) begin
+    case(io_selection[3:2])
+      2'h0: trigger_o[0] = trigger_o_s[0];
+      2'h1: trigger_o[0] = cascaded_trigger;
+      2'h2: trigger_o[0] = trigger_a_d3;
+      2'h3: trigger_o[0] = trigger_out_s;
+      default: trigger_o[0] = trigger_o_s[0];
+    endcase
+    case(io_selection[5:4])
+      2'h0: trigger_o[1] = trigger_o_s[1];
+      2'h1: trigger_o[1] = cascaded_trigger;
+      2'h2: trigger_o[1] = trigger_b_d3;
+      2'h3: trigger_o[1] = trigger_out_s;
+      default: trigger_o[1] = trigger_o_s[1];
+    endcase
+  end
+
+  assign data_a_trig = (embedded_trigger ==  1'h0) ? {data_a_r[14],data_a_r} : {trigger_out_s,data_a_r};
+  assign data_b_trig = (embedded_trigger ==  1'h0) ? {data_b_r[14],data_b_r} : {trigger_out_s,data_b_r};
+  assign trigger_out = trigger_out_s;
+
+  assign embedded_trigger = trigger_out_control[16];
+  assign trigger_out_s = (trigger_delay == 32'h0) ? (trigger_out_mixed | streaming_on) :
+                                                  (trigger_out_delayed | streaming_on);
   assign data_valid_a_trig = data_valid_a_r;
   assign data_valid_b_trig = data_valid_b_r;
 
@@ -233,6 +261,7 @@ module axi_adc_trigger #(
       end
     end
   end
+
 
   always @(posedge clk) begin
     if (trigger_delay == 0) begin
@@ -350,12 +379,16 @@ module axi_adc_trigger #(
   end
 
    always @(*) begin
-    case(trigger_out_mix)
-      3'h0: trigger_out_mixed = trigger_a;
-      3'h1: trigger_out_mixed = trigger_b;
-      3'h2: trigger_out_mixed = trigger_a | trigger_b;
-      3'h3: trigger_out_mixed = trigger_a & trigger_b;
-      3'h4: trigger_out_mixed = trigger_a ^ trigger_b;
+    case(trigger_out_control[3:0])
+      4'h0: trigger_out_mixed = trigger_a;
+      4'h1: trigger_out_mixed = trigger_b;
+      4'h2: trigger_out_mixed = trigger_a | trigger_b;
+      4'h3: trigger_out_mixed = trigger_a & trigger_b;
+      4'h4: trigger_out_mixed = trigger_a ^ trigger_b;
+      4'h5: trigger_out_mixed = cascaded_trigger;
+      4'h6: trigger_out_mixed = trigger_a | cascaded_trigger;
+      4'h7: trigger_out_mixed = trigger_b | cascaded_trigger;
+      4'h8: trigger_out_mixed = trigger_a | trigger_b | cascaded_trigger;
       default: trigger_out_mixed = trigger_a;
     endcase
   end
@@ -417,7 +450,7 @@ module axi_adc_trigger #(
   .clk(clk),
 
   .io_selection(io_selection),
-  .trigger_o(trigger_o),
+  .trigger_o(trigger_o_s),
   .triggered(up_triggered),
 
   .low_level(low_level),
@@ -436,8 +469,9 @@ module axi_adc_trigger #(
   .hysteresis_b(hysteresis_b),
   .trigger_l_mix_b(trigger_l_mix_b),
 
-  .trigger_out_mix(trigger_out_mix),
+  .trigger_out_control(trigger_out_control),
   .trigger_delay(trigger_delay),
+
   .fifo_depth(fifo_depth),
 
   .streaming(streaming),
