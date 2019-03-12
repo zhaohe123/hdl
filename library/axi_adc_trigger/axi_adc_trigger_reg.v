@@ -224,19 +224,20 @@ module axi_adc_trigger_reg (
    up_xfer_cntrl #(.DATA_WIDTH(200)) i_xfer_cntrl (
     .up_rstn (up_rstn),
     .up_clk (up_clk),
-    .up_data_cntrl ({ up_streaming,         // 1
-                      up_config_trigger_i,  // 10
-                      up_limit_a,           // 16
-                      up_function_a,        // 2
-                      up_hysteresis_a,      // 32
-                      up_trigger_l_mix_a,   // 4
-                      up_limit_b,           // 16
-                      up_function_b,        // 2
-                      up_hysteresis_b,      // 32
-                      up_trigger_l_mix_b,   // 4
-                      up_trigger_out_control,// 17
-                      up_fifo_depth,        // 32
-                      up_trigger_delay}),   // 32
+    .up_data_cntrl ({ up_streaming,           // 1
+                      up_config_i_trigger,    // 10
+                      up_config_trigger_i,    // 10
+                      up_limit_a,             // 16
+                      up_function_a,          // 2
+                      up_hysteresis_a,        // 32
+                      up_trigger_l_mix_a,     // 4
+                      up_limit_b,             // 16
+                      up_function_b,          // 2
+                      up_hysteresis_b,        // 32
+                      up_trigger_l_mix_b,     // 4
+                      up_trigger_out_control, // 17
+                      up_fifo_depth,          // 32
+                      up_trigger_delay}),     // 32
 
     .up_xfer_done (),
     .d_rst (1'b0),

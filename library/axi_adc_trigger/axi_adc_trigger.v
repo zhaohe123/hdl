@@ -262,7 +262,6 @@ module axi_adc_trigger #(
     end
   end
 
-
   always @(posedge clk) begin
     if (trigger_delay == 0) begin
       if (streaming == 1'b1 && data_valid_a_r == 1'b1 && trigger_out_mixed == 1'b1) begin
