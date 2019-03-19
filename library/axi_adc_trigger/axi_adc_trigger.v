@@ -104,7 +104,7 @@ module axi_adc_trigger #(
   wire                  up_rreq;
   wire         [ 4:0]   up_raddr;
 
-  wire         [ 5:0]   io_selection;
+  wire         [ 7:0]   io_selection;
 
   wire         [ 1:0]   low_level;
   wire         [ 1:0]   high_level;
@@ -216,18 +216,20 @@ module axi_adc_trigger #(
   assign limit_b_cmp  = limit_b[DW:0];
 
   always @(*) begin
-    case(io_selection[3:2])
-      2'h0: trigger_o[0] = trigger_o_s[0];
-      2'h1: trigger_o[0] = cascaded_trigger;
-      2'h2: trigger_o[0] = trigger_a_d3;
-      2'h3: trigger_o[0] = trigger_out_s;
+    case(io_selection[4:2])
+      3'h0: trigger_o[0] = trigger_o_s[0];
+      3'h1: trigger_o[0] = trigger_a_d3;
+      3'h2: trigger_o[0] = trigger_b_d3;
+      3'h3: trigger_o[0] = trigger_out_s;
+      3'h4: trigger_o[0] = cascaded_trigger;
       default: trigger_o[0] = trigger_o_s[0];
     endcase
-    case(io_selection[5:4])
-      2'h0: trigger_o[1] = trigger_o_s[1];
-      2'h1: trigger_o[1] = cascaded_trigger;
-      2'h2: trigger_o[1] = trigger_b_d3;
-      2'h3: trigger_o[1] = trigger_out_s;
+    case(io_selection[7:5])
+      3'h0: trigger_o[1] = trigger_o_s[1];
+      3'h1: trigger_o[1] = trigger_b_d3;
+      3'h2: trigger_o[1] = trigger_a_d3;
+      3'h3: trigger_o[1] = trigger_out_s;
+      3'h4: trigger_o[1] = cascaded_trigger;
       default: trigger_o[1] = trigger_o_s[1];
     endcase
   end

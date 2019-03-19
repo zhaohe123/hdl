@@ -39,7 +39,7 @@ module axi_adc_trigger_reg (
 
   input               clk,
 
-  output reg  [ 5:0]  io_selection,
+  output reg  [ 7:0]  io_selection,
   output reg  [ 1:0]  trigger_o,
   input               triggered,
 
@@ -86,6 +86,8 @@ module axi_adc_trigger_reg (
 
   reg     [31:0]  up_version = 32'h00020000;
   reg     [31:0]  up_scratch = 32'h0;
+  reg     [ 7:0]  up_io_selection = 8'h0;
+  reg     [ 1:0]  up_trigger_o = 2'h0;
   reg     [ 9:0]  up_config_trigger_i = 10'h0;
   reg     [15:0]  up_limit_a = 16'h0;
   reg     [ 1:0]  up_function_a = 2'h0;
@@ -111,8 +113,8 @@ module axi_adc_trigger_reg (
     if (up_rstn == 0) begin
       up_wack <= 'd0;
       up_scratch <= 'd0;
-      io_selection <= 'd3;
-      trigger_o <= 'd0;
+      up_trigger_o <= 'd0;
+      up_io_selection <= 'd3;
       up_config_trigger_i <= 'd0;
       up_limit_a <= 'd0;
       up_function_a <= 'd0;
@@ -133,10 +135,10 @@ module axi_adc_trigger_reg (
         up_scratch <= up_wdata;
       end
       if ((up_wreq == 1'b1) && (up_waddr[4:0] == 5'h2)) begin
-        trigger_o <= up_wdata[1:0];
+        up_trigger_o <= up_wdata[1:0];
       end
       if ((up_wreq == 1'b1) && (up_waddr[4:0] == 5'h3)) begin
-        io_selection <= up_wdata[5:0];
+        up_io_selection <= up_wdata[7:0];
       end
       if ((up_wreq == 1'b1) && (up_waddr[4:0] == 5'h4)) begin
         up_config_trigger_i <= up_wdata[9:0];
@@ -197,8 +199,8 @@ module axi_adc_trigger_reg (
         case (up_raddr[4:0])
           5'h0: up_rdata <= up_version;
           5'h1: up_rdata <= up_scratch;
-          5'h2: up_rdata <= {30'h0,trigger_o};
-          5'h3: up_rdata <= {26'h0,io_selection};
+          5'h2: up_rdata <= {30'h0,up_trigger_o};
+          5'h3: up_rdata <= {24'h0,up_io_selection};
           5'h4: up_rdata <= {22'h0,up_config_trigger_i};
           5'h5: up_rdata <= {16'h0,up_limit_a};
           5'h6: up_rdata <= {30'h0,up_function_a};
@@ -221,10 +223,12 @@ module axi_adc_trigger_reg (
     end
   end
 
-   up_xfer_cntrl #(.DATA_WIDTH(200)) i_xfer_cntrl (
+   up_xfer_cntrl #(.DATA_WIDTH(210)) i_xfer_cntrl (
     .up_rstn (up_rstn),
     .up_clk (up_clk),
     .up_data_cntrl ({ up_streaming,           // 1
+                      up_trigger_o,           // 2
+                      up_io_selection,        // 8
                       up_config_i_trigger,    // 10
                       up_config_trigger_i,    // 10
                       up_limit_a,             // 16
@@ -243,6 +247,8 @@ module axi_adc_trigger_reg (
     .d_rst (1'b0),
     .d_clk (clk),
     .d_data_cntrl ({  streaming,          // 1
+                      trigger_o,          // 2
+                      io_selection,       // 8
                       config_trigger_i,   // 10
                       limit_a,            // 16
                       function_a,         // 2
