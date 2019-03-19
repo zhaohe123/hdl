@@ -39,8 +39,8 @@ module axi_adc_trigger_reg (
 
   input               clk,
 
-  output reg  [ 7:0]  io_selection,
-  output reg  [ 1:0]  trigger_o,
+  output      [ 7:0]  io_selection,
+  output      [ 1:0]  trigger_o,
   input               triggered,
 
   output      [ 1:0]  low_level,
