@@ -45,7 +45,7 @@ module axi_adc_trigger #(
 
   input                 clk,
 
-  input                 cascaded_trigger,
+  input                 trigger_in,
 
   input       [ 1:0]    trigger_i,
   output reg  [ 1:0]    trigger_o,
@@ -221,7 +221,7 @@ module axi_adc_trigger #(
       3'h1: trigger_o[0] = trigger_a_d3;
       3'h2: trigger_o[0] = trigger_b_d3;
       3'h3: trigger_o[0] = trigger_out_s;
-      3'h4: trigger_o[0] = cascaded_trigger;
+      3'h4: trigger_o[0] = trigger_in;
       default: trigger_o[0] = trigger_o_s[0];
     endcase
     case(io_selection[7:5])
@@ -229,7 +229,7 @@ module axi_adc_trigger #(
       3'h1: trigger_o[1] = trigger_b_d3;
       3'h2: trigger_o[1] = trigger_a_d3;
       3'h3: trigger_o[1] = trigger_out_s;
-      3'h4: trigger_o[1] = cascaded_trigger;
+      3'h4: trigger_o[1] = trigger_in;
       default: trigger_o[1] = trigger_o_s[1];
     endcase
   end
@@ -386,10 +386,10 @@ module axi_adc_trigger #(
       4'h2: trigger_out_mixed = trigger_a | trigger_b;
       4'h3: trigger_out_mixed = trigger_a & trigger_b;
       4'h4: trigger_out_mixed = trigger_a ^ trigger_b;
-      4'h5: trigger_out_mixed = cascaded_trigger;
-      4'h6: trigger_out_mixed = trigger_a | cascaded_trigger;
-      4'h7: trigger_out_mixed = trigger_b | cascaded_trigger;
-      4'h8: trigger_out_mixed = trigger_a | trigger_b | cascaded_trigger;
+      4'h5: trigger_out_mixed = trigger_in;
+      4'h6: trigger_out_mixed = trigger_a | trigger_in;
+      4'h7: trigger_out_mixed = trigger_b | trigger_in;
+      4'h8: trigger_out_mixed = trigger_a | trigger_b | trigger_in;
       default: trigger_out_mixed = trigger_a;
     endcase
   end
