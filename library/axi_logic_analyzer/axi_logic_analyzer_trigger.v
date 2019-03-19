@@ -43,7 +43,7 @@ module axi_logic_analyzer_trigger (
   input       [15:0]    data,
   input                 data_valid,
   input       [ 1:0]    trigger,
-  input                 cascaded_trigger,
+  input                 trigger_in,
 
   input       [17:0]    edge_detect_enable,
   input       [17:0]    rise_edge_enable,
@@ -98,10 +98,10 @@ module axi_logic_analyzer_trigger (
   always @(*) begin
     case (trigger_logic[6:4])
       3'd0: trigger_active_mux = trigger_active;
-      3'd1: trigger_active_mux = cascaded_trigger;
-      3'd2: trigger_active_mux = trigger_active & cascaded_trigger;
-      3'd3: trigger_active_mux = trigger_active | cascaded_trigger;
-      3'd4: trigger_active_mux = trigger_active ^ cascaded_trigger;
+      3'd1: trigger_active_mux = trigger_in;
+      3'd2: trigger_active_mux = trigger_active & trigger_in;
+      3'd3: trigger_active_mux = trigger_active | trigger_in;
+      3'd4: trigger_active_mux = trigger_active ^ trigger_in;
       default: trigger_active_mux = 1'b1;
     endcase
   end

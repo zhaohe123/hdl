@@ -52,7 +52,7 @@ module axi_logic_analyzer (
   input                 dac_valid,
   output reg            dac_read,
 
-  input                 cascaded_trigger,
+  input                 trigger_in,
   output                trigger_out,
   output      [31:0]    fifo_depth,
 
@@ -299,7 +299,7 @@ module axi_logic_analyzer (
     .data (adc_data_m2),
     .data_valid(sample_valid_la),
     .trigger (trigger_m2),
-    .cascaded_trigger (cascaded_trigger),
+    .trigger_in (trigger_in),
 
     .edge_detect_enable (edge_detect_enable),
     .rise_edge_enable (rise_edge_enable),
