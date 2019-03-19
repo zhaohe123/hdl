@@ -298,7 +298,7 @@ module axi_logic_analyzer (
 
     .data (adc_data_m2),
     .data_valid(sample_valid_la),
-    .trigger (trigger_m2),
+    .trigger_i (trigger_m2),
     .trigger_in (trigger_in),
 
     .edge_detect_enable (edge_detect_enable),
