@@ -56,11 +56,12 @@ module axi_adc_trigger #(
   input                 data_valid_a,
   input                 data_valid_b,
 
-  output      [15:0]    data_a_trig,
-  output      [15:0]    data_b_trig,
+  output reg  [15:0]    data_a_trig,
+  output reg  [15:0]    data_b_trig,
   output                data_valid_a_trig,
   output                data_valid_b_trig,
-  output                trigger_out,
+  output reg            trigger_out,
+  output reg            trigger_out_express,
 
   output      [31:0]    fifo_depth,
 
@@ -147,6 +148,7 @@ module axi_adc_trigger #(
   wire                  streaming;
   wire                  trigger_out_s;
   wire                  embedded_trigger;
+  wire                  external_trigger;
 
   reg                   trigger_a_d1; // synchronization flip flop
   reg                   trigger_a_d2; // synchronization flip flop
@@ -169,6 +171,13 @@ module axi_adc_trigger #(
 
   reg                   trigger_pin_a;
   reg                   trigger_pin_b;
+  reg        [ 1:0]     trigger_o_m;
+  reg        [ 1:0]     trigger_o_m_1;
+
+  reg                   trig_o_hold_0;
+  reg                   trig_o_hold_1;
+  reg        [ 2:0]     trig_o_hold_cnt_0;
+  reg        [ 2:0]     trig_o_hold_cnt_1;
 
   reg                   trigger_adc_a;
   reg                   trigger_adc_b;
@@ -193,6 +202,9 @@ module axi_adc_trigger #(
 
   reg        [31:0]     trigger_delay_counter;
   reg                   triggered;
+  reg                   trigger_out_m1;
+  reg                   trigger_out_m2;
+  reg                   trigger_out_m3;
 
   reg                   streaming_on;
 
@@ -234,9 +246,48 @@ module axi_adc_trigger #(
     endcase
   end
 
-  assign data_a_trig = (embedded_trigger ==  1'h0) ? {data_a_r[14],data_a_r} : {trigger_out_s,data_a_r};
-  assign data_b_trig = (embedded_trigger ==  1'h0) ? {data_b_r[14],data_b_r} : {trigger_out_s,data_b_r};
-  assign trigger_out = trigger_out_s;
+  // external trigger output hold 10 clock cycles on polarity change
+  always @(posedge clk) begin
+    // trigger_o[0] hold start
+    if ((trigger_o_m[0] ^ trigger_o_m_1[0]) & (trig_o_hold_cnt_0 == 3'h0)) begin
+      trig_o_hold_cnt_0 <= 3'h7;
+      trig_o_hold_0 <= trigger_o_m[0];
+    end
+    if (trig_o_hold_cnt_0 != 3'h0) begin
+      trig_o_hold_cnt_0 <= trig_o_hold_cnt_0 - 3'h1;
+    end
+    trigger_o_m_1[0] <= trigger_o_m[0];
+
+    // trigger_o[1] hold start
+    if ((trigger_o_m[1] ^ trigger_o_m_1[1]) & (trig_o_hold_cnt_1 == 3'h0)) begin
+      trig_o_hold_cnt_1 <= 3'h7;
+      trig_o_hold_1 <= trigger_o_m[1];
+    end
+    if (trig_o_hold_cnt_1 != 3'h0) begin
+      trig_o_hold_cnt_1 <= trig_o_hold_cnt_1 - 3'h1;
+    end
+    trigger_o_m_1[1] <= trigger_o_m[1];
+
+    // hold
+    trigger_o[0] <= (trig_o_hold_cnt_0 == 'd0) ? trigger_o_m[0] : trig_o_hold_0;
+    trigger_o[1] <= (trig_o_hold_cnt_0 == 'd0) ? trigger_o_m[1] : trig_o_hold_1;
+  end
+
+  // - keep data in sync with the trigger. The trigger bypasses the variable fifo.
+  // The data goes through and it is delayed with 4 clock cycles)
+  always @(posedge clk) begin
+    trigger_out_m1 <= trigger_out_s;
+    trigger_out_m2 <= trigger_out_m1;
+    trigger_out_m3 <= trigger_out_m2;
+    trigger_out <= trigger_out_m3;
+
+    // triggers logic analyzer
+    trigger_out_express <= trigger_out_mixed;
+    // the embedded trigger does not require any extra delay, since the util_extract
+    // present in this case, delays the end trigger with 3 clock cycles
+    data_a_trig <= (embedded_trigger == 1'h0) ? {data_a_r[14],data_a_r} : {trigger_out_s,data_a_r};
+    data_b_trig <= (embedded_trigger == 1'h0) ? {data_b_r[14],data_b_r} : {trigger_out_s,data_b_r};
+  end
 
   assign embedded_trigger = trigger_out_control[16];
   assign trigger_out_s = (trigger_delay == 32'h0) ? (trigger_out_mixed | streaming_on) :
