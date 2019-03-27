@@ -54,6 +54,7 @@ module axi_logic_analyzer (
 
   input                 trigger_in,
   output                trigger_out,
+  output                trigger_out_express,
   output      [31:0]    fifo_depth,
 
   // axi interface
@@ -85,7 +86,6 @@ module axi_logic_analyzer (
   reg     [15:0]    data_m1 = 'd0;
   reg     [15:0]    data_r = 'd0;
   reg     [ 1:0]    trigger_m1 = 'd0;
-  reg     [ 1:0]    trigger_m2 = 'd0;
   reg     [31:0]    downsampler_counter_la = 'd0;
   reg     [31:0]    upsampler_counter_pg = 'd0;
 
@@ -224,7 +224,6 @@ module axi_logic_analyzer (
     if (sample_valid_la == 1'b1) begin
       data_m1 <= data_i;
       trigger_m1 <= trigger_i;
-      trigger_m2 <= trigger_m1;
     end
   end
 
@@ -298,7 +297,7 @@ module axi_logic_analyzer (
 
     .data (adc_data_m2),
     .data_valid(sample_valid_la),
-    .trigger_i (trigger_m2),
+    .trigger_i (trigger_m1),
     .trigger_in (trigger_in),
 
     .edge_detect_enable (edge_detect_enable),
@@ -307,6 +306,7 @@ module axi_logic_analyzer (
     .low_level_enable (low_level_enable),
     .high_level_enable (high_level_enable),
     .trigger_logic (trigger_logic),
+    .trigger_out_express (trigger_out_express),
     .trigger_out (trigger_out_s));
 
    axi_logic_analyzer_reg i_registers (
