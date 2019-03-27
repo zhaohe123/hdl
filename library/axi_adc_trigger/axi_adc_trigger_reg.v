@@ -229,7 +229,6 @@ module axi_adc_trigger_reg (
     .up_data_cntrl ({ up_streaming,           // 1
                       up_trigger_o,           // 2
                       up_io_selection,        // 8
-                      up_config_i_trigger,    // 10
                       up_config_trigger_i,    // 10
                       up_limit_a,             // 16
                       up_function_a,          // 2
