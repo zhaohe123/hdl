@@ -229,20 +229,20 @@ module axi_adc_trigger #(
 
   always @(*) begin
     case(io_selection[4:2])
-      3'h0: trigger_o[0] = trigger_up_o_s[0];
-      3'h1: trigger_o[0] = trigger_i[0];
-      3'h2: trigger_o[0] = trigger_i[1];
-      3'h3: trigger_o[0] = trigger_out_mixed;
-      3'h4: trigger_o[0] = trigger_in;
-      default: trigger_o[0] = trigger_up_o_s[0];
+      3'h0: trigger_o_m[0] = trigger_up_o_s[0];
+      3'h1: trigger_o_m[0] = trigger_i[0];
+      3'h2: trigger_o_m[0] = trigger_i[1];
+      3'h3: trigger_o_m[0] = trigger_out_mixed;
+      3'h4: trigger_o_m[0] = trigger_in;
+      default: trigger_o_m[0] = trigger_up_o_s[0];
     endcase
     case(io_selection[7:5])
-      3'h0: trigger_o[1] = trigger_up_o_s[1];
-      3'h1: trigger_o[1] = trigger_i[1];
-      3'h2: trigger_o[1] = trigger_i[0];
-      3'h3: trigger_o[1] = trigger_out_mixed;
-      3'h4: trigger_o[1] = trigger_in;
-      default: trigger_o[1] = trigger_up_o_s[1];
+      3'h0: trigger_o_m[1] = trigger_up_o_s[1];
+      3'h1: trigger_o_m[1] = trigger_i[1];
+      3'h2: trigger_o_m[1] = trigger_i[0];
+      3'h3: trigger_o_m[1] = trigger_out_mixed;
+      3'h4: trigger_o_m[1] = trigger_in;
+      default: trigger_o_m[1] = trigger_up_o_s[1];
     endcase
   end
 
