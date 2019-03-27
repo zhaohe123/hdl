@@ -143,7 +143,7 @@ module axi_adc_trigger #(
   wire                  trigger_a_any_edge;
   wire                  trigger_b_any_edge;
   wire                  trigger_out_delayed;
-  wire         [ 1:0]   trigger_o_s;
+  wire         [ 1:0]   trigger_up_o_s;
   wire                  streaming;
   wire                  trigger_out_s;
   wire                  embedded_trigger;
@@ -217,20 +217,20 @@ module axi_adc_trigger #(
 
   always @(*) begin
     case(io_selection[4:2])
-      3'h0: trigger_o[0] = trigger_o_s[0];
-      3'h1: trigger_o[0] = trigger_a_d3;
-      3'h2: trigger_o[0] = trigger_b_d3;
-      3'h3: trigger_o[0] = trigger_out_s;
+      3'h0: trigger_o[0] = trigger_up_o_s[0];
+      3'h1: trigger_o[0] = trigger_i[0];
+      3'h2: trigger_o[0] = trigger_i[1];
+      3'h3: trigger_o[0] = trigger_out_mixed;
       3'h4: trigger_o[0] = trigger_in;
-      default: trigger_o[0] = trigger_o_s[0];
+      default: trigger_o[0] = trigger_up_o_s[0];
     endcase
     case(io_selection[7:5])
-      3'h0: trigger_o[1] = trigger_o_s[1];
-      3'h1: trigger_o[1] = trigger_b_d3;
-      3'h2: trigger_o[1] = trigger_a_d3;
-      3'h3: trigger_o[1] = trigger_out_s;
+      3'h0: trigger_o[1] = trigger_up_o_s[1];
+      3'h1: trigger_o[1] = trigger_i[1];
+      3'h2: trigger_o[1] = trigger_i[0];
+      3'h3: trigger_o[1] = trigger_out_mixed;
       3'h4: trigger_o[1] = trigger_in;
-      default: trigger_o[1] = trigger_o_s[1];
+      default: trigger_o[1] = trigger_up_o_s[1];
     endcase
   end
 
@@ -451,7 +451,7 @@ module axi_adc_trigger #(
   .clk(clk),
 
   .io_selection(io_selection),
-  .trigger_o(trigger_o_s),
+  .trigger_o(trigger_up_o_s),
   .triggered(up_triggered),
 
   .low_level(low_level),
