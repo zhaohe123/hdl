@@ -67,6 +67,7 @@ module util_var_fifo #(
   // internal registers
 
   reg [ADDRESS_WIDTH-1:0]    addra = 'd0;
+  reg [ADDRESS_WIDTH-1:0]    addra_next = 'd0;
   reg [ADDRESS_WIDTH-1:0]    addrb = 'd0;
 
   reg [31:0]            depth_d1 = 'd0;
@@ -103,13 +104,11 @@ module util_var_fifo #(
   assign en_w = fifo_active;
   assign addr_w = addra;
   assign din_w = data_in;
-  assign en_r = fifo_active;
+  assign en_r = addra != 'd0 ? fifo_active : 1'b0;
   assign addr_r = addrb;
   assign data_out_s = interpolation_on ? (interpolation_by_2 ? data_out_d2 : data_out_d3) : dout_r;
 
-  // in case the interpolation is on, the data is available with one sample
-  // delay. If interpolation is off, the data is available with two or three
-  // sample delay. Add an extra delay if interpolation is on.
+  // independent of interpolation active or not the data is always delayed 4 samples
   always @(posedge clk) begin
     data_in_valid_d1 <= data_in_valid;
     data_in_valid_d2 <= data_in_valid_d1;
@@ -152,16 +151,18 @@ module util_var_fifo #(
   always @(posedge clk) begin
     if(reset == 1'b1 || fifo_active == 1'b0) begin
       addra <= 0;
+      addra_next <= 0;
       addrb <= 0;
       data_active <= 1'b0;
     end else begin
       if (data_in_valid == 1'b1) begin
-        addra <= addra + 1;
+        addra_next <= addra + 1;
+	addra <= addra_next;
         if (data_active == 1'b1) begin
           addrb <= addrb + 1;
         end
       end
-      if (addra > depth || addra > MAX_DEPTH - 2) begin
+      if (addra_next == depth || addra_next == MAX_DEPTH - 2) begin
         data_active <= 1'b1;
       end
     end
