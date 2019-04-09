@@ -61,7 +61,7 @@ module axi_adc_trigger #(
   output                data_valid_a_trig,
   output                data_valid_b_trig,
   output reg            trigger_out,
-  output reg            trigger_out_express,
+  output reg            trigger_out_la,
 
   output      [31:0]    fifo_depth,
 
@@ -276,7 +276,7 @@ module axi_adc_trigger #(
     trigger_out <= trigger_out_m1;
 
     // triggers logic analyzer
-    trigger_out_express <= trigger_out_mixed;
+    trigger_out_la <= trigger_out_mixed;
   end
 
   // the embedded trigger does not require any extra delay, since the util_extract
