@@ -56,8 +56,8 @@ module axi_adc_trigger #(
   input                 data_valid_a,
   input                 data_valid_b,
 
-  output reg  [15:0]    data_a_trig,
-  output reg  [15:0]    data_b_trig,
+  output      [15:0]    data_a_trig,
+  output      [15:0]    data_b_trig,
   output                data_valid_a_trig,
   output                data_valid_b_trig,
   output reg            trigger_out,
@@ -195,16 +195,12 @@ module axi_adc_trigger #(
   reg                   up_triggered_reset_d1;
   reg                   up_triggered_reset_d2;
 
-  reg        [14:0]     data_a_r;
-  reg        [14:0]     data_b_r;
   reg                   data_valid_a_r;
   reg                   data_valid_b_r;
 
   reg        [31:0]     trigger_delay_counter;
   reg                   triggered;
   reg                   trigger_out_m1;
-  reg                   trigger_out_m2;
-  reg                   trigger_out_m3;
 
   reg                   streaming_on;
 
@@ -277,23 +273,22 @@ module axi_adc_trigger #(
   // The data goes through and it is delayed with 4 clock cycles)
   always @(posedge clk) begin
     trigger_out_m1 <= trigger_out_s;
-    trigger_out_m2 <= trigger_out_m1;
-    trigger_out_m3 <= trigger_out_m2;
-    trigger_out <= trigger_out_m3;
+    trigger_out <= trigger_out_m1;
 
     // triggers logic analyzer
     trigger_out_express <= trigger_out_mixed;
-    // the embedded trigger does not require any extra delay, since the util_extract
-    // present in this case, delays the end trigger with 3 clock cycles
-    data_a_trig <= (embedded_trigger == 1'h0) ? {data_a_r[14],data_a_r} : {trigger_out_s,data_a_r};
-    data_b_trig <= (embedded_trigger == 1'h0) ? {data_b_r[14],data_b_r} : {trigger_out_s,data_b_r};
   end
+
+  // the embedded trigger does not require any extra delay, since the util_extract
+  // present in this case, delays the trigger with 2 clock cycles
+  assign data_a_trig = (embedded_trigger == 1'h0) ? {data_a[14],data_a[14:0]} : {trigger_out_s,data_a[14:0]};
+  assign data_b_trig = (embedded_trigger == 1'h0) ? {data_b[14],data_b[14:0]} : {trigger_out_s,data_b[14:0]};
 
   assign embedded_trigger = trigger_out_control[16];
   assign trigger_out_s = (trigger_delay == 32'h0) ? (trigger_out_mixed | streaming_on) :
                                                   (trigger_out_delayed | streaming_on);
-  assign data_valid_a_trig = data_valid_a_r;
-  assign data_valid_b_trig = data_valid_b_r;
+  assign data_valid_a_trig = data_valid_a;
+  assign data_valid_b_trig = data_valid_b;
 
   assign trigger_out_delayed = (trigger_delay_counter == 32'h0) ? 1 : 0;
 
@@ -346,13 +341,6 @@ module axi_adc_trigger #(
     up_triggered_d1 <= up_triggered_set;
     up_triggered_d2 <= up_triggered_d1;
     up_triggered    <= up_triggered_d2;
-  end
-
-  always @(posedge clk) begin
-    data_a_r <= data_a[14:0];
-    data_valid_a_r <= data_valid_a;
-    data_b_r <= data_b[14:0];
-    data_valid_b_r <= data_valid_b;
   end
 
   always @(*) begin
