@@ -54,7 +54,7 @@ module axi_logic_analyzer (
 
   input                 trigger_in,
   output                trigger_out,
-  output                trigger_out_express,
+  output                trigger_out_adc,
   output      [31:0]    fifo_depth,
 
   // axi interface
