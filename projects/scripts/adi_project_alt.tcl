@@ -43,7 +43,7 @@ proc adi_project_altera {project_name} {
 
   if [regexp "_s10soc$" $project_name] {
     set family "Stratix 10"
-    set device 1SX280LU2F50E1VG
+    set device 1SX280LU2F50E2VG
     set system_qip_file system_bd/system_bd.qip
   }
 
