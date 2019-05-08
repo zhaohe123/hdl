@@ -13,6 +13,7 @@ M_DEPS += carrier_constr.xdc
 M_DEPS += ../../library/xilinx/common/ad_iobuf.v
 M_DEPS += ../../library/jesd204/scripts/jesd204.tcl
 
+LIB_DEPS += axi_sysid
 LIB_DEPS += axi_dmac
 LIB_DEPS += jesd204/ad_ip_jesd204_tpl_adc
 LIB_DEPS += jesd204/ad_ip_jesd204_tpl_dac

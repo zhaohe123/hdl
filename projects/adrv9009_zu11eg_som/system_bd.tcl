@@ -141,3 +141,11 @@ connect_bd_net [get_bd_pins sys_ps8/maxihpm0_lpd_aclk] [get_bd_pins sys_ps8/pl_c
 
 source adrv9009_zu11eg_som_bd.tcl
 source carrier_bd.tcl
+
+source sysid_mem.tcl
+
+ad_ip_instance axi_sysid axi_sysid_0
+set pathtofile "[pwd]/mem_init.txt"
+ad_ip_parameter axi_sysid_0 CONFIG.PATH_TO_FILE $pathtofile
+ad_ip_parameter axi_sysid_0 CONFIG.ROM_ADDR_BITS 6
+ad_cpu_interconnect 0x45000000 axi_sysid_0
