@@ -151,13 +151,13 @@ module util_var_fifo #(
   always @(posedge clk) begin
     if(reset == 1'b1 || fifo_active == 1'b0) begin
       addra <= 0;
-      addra_next <= 0;
+      addra_next <= 1;
       addrb <= 0;
       data_active <= 1'b0;
     end else begin
       if (data_in_valid == 1'b1) begin
-        addra_next <= addra + 1;
-	addra <= addra_next;
+        addra_next <= addra_next + 1;
+	      addra <= addra_next;
         if (data_active == 1'b1) begin
           addrb <= addrb + 1;
         end
