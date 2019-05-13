@@ -5,7 +5,7 @@ variable version
 
 set family "none"
 set device "none"
-set version "18.1.0"
+set version "19.1.0"
 
 proc adi_project_altera {project_name} {
 
@@ -111,9 +111,9 @@ proc adi_project_altera {project_name} {
   puts $QFILE "set_project_property DEVICE_FAMILY {$family}"
   puts $QFILE "set_project_property DEVICE $device"
   puts $QFILE "source system_qsys.tcl"
-  puts $QFILE "set_interconnect_requirement {\$system} {qsys_mm.clockCrossingAdapter} {AUTO}"
-  puts $QFILE "set_interconnect_requirement {\$system} {qsys_mm.burstAdapterImplementation} {PER_BURST_TYPE_CONVERTER}"
-  puts $QFILE "set_interconnect_requirement {\$system} {qsys_mm.maxAdditionalLatency} {4}"
+  # puts $QFILE "set_interconnect_requirement {\$system} {qsys_mm.clockCrossingAdapter} {AUTO}"
+  # puts $QFILE "set_interconnect_requirement {\$system} {qsys_mm.burstAdapterImplementation} {PER_BURST_TYPE_CONVERTER}"
+  # puts $QFILE "set_interconnect_requirement {\$system} {qsys_mm.maxAdditionalLatency} {4}"
   puts $QFILE "save_system {system_bd.qsys}"
   close $QFILE
 
