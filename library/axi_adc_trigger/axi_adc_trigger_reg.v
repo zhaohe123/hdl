@@ -114,7 +114,7 @@ module axi_adc_trigger_reg (
       up_wack <= 'd0;
       up_scratch <= 'd0;
       up_trigger_o <= 'd0;
-      up_io_selection <= 'd3;
+      up_io_selection <= 'd1;
       up_config_trigger_i <= 'd0;
       up_limit_a <= 'd0;
       up_function_a <= 'd0;
