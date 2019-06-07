@@ -84,7 +84,7 @@ module axi_adc_trigger_reg (
 
   // internal registers
 
-  reg     [31:0]  up_version = 32'h00020000;
+  reg     [31:0]  up_version = 32'h00030000;
   reg     [31:0]  up_scratch = 32'h0;
   reg     [ 7:0]  up_io_selection = 8'h0;
   reg     [ 1:0]  up_trigger_o = 2'h0;
