@@ -306,7 +306,7 @@ module axi_logic_analyzer (
     .low_level_enable (low_level_enable),
     .high_level_enable (high_level_enable),
     .trigger_logic (trigger_logic),
-    .trigger_out_express (trigger_out_express),
+    .trigger_out_adc (trigger_out_adc),
     .trigger_out (trigger_out_s));
 
    axi_logic_analyzer_reg i_registers (
