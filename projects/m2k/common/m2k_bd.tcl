@@ -342,17 +342,3 @@ ad_cpu_interrupt ps-10 mb-14 ad9963_adc_dmac/irq
 ad_cpu_interrupt ps-9 mb-15 ad9963_dac_dmac_a/irq
 ad_cpu_interrupt ps-8 mb-16 ad9963_dac_dmac_b/irq
 
-create_bd_cell -type ip -vlnv xilinx.com:ip:ila:6.2 ila_0
-set_property -dict [list CONFIG.C_PROBE7_WIDTH {16} CONFIG.C_PROBE6_WIDTH {16} CONFIG.C_PROBE3_WIDTH {32} CONFIG.C_PROBE2_WIDTH {16} CONFIG.C_NUM_OF_PROBES {8} CONFIG.C_ENABLE_ILA_AXI_MON {false} CONFIG.C_MONITOR_TYPE {Native}] [get_bd_cells ila_0]
-set_property location {6 2529 1562} [get_bd_cells ila_0]
-set_property location {6 2461 1573} [get_bd_cells ila_0]
-set_property location {6 2507 1613} [get_bd_cells ila_0]
-connect_bd_net [get_bd_pins ila_0/clk] [get_bd_pins axi_ad9963/adc_clk]
-connect_bd_net [get_bd_pins ila_0/probe0] [get_bd_pins axi_adc_decimate/adc_dec_valid_a]
-connect_bd_net [get_bd_pins ila_0/probe2] [get_bd_pins axi_adc_decimate/adc_dec_data_a]
-connect_bd_net [get_bd_pins ila_0/probe3] [get_bd_pins adc_trigger_fifo/data_out]
-connect_bd_net [get_bd_pins ila_0/probe1] [get_bd_pins adc_trigger/trigger_out]
-connect_bd_net [get_bd_pins ila_0/probe4] [get_bd_pins logic_analyzer/adc_valid]
-connect_bd_net [get_bd_pins ila_0/probe6] [get_bd_pins logic_analyzer/adc_data]
-connect_bd_net [get_bd_pins ila_0/probe5] [get_bd_pins logic_analyzer/trigger_out]
-connect_bd_net [get_bd_pins ila_0/probe7] [get_bd_pins la_trigger_fifo/data_out]
