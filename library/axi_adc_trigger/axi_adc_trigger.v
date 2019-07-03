@@ -176,8 +176,8 @@ module axi_adc_trigger #(
 
   reg                   trig_o_hold_0;
   reg                   trig_o_hold_1;
-  reg        [ 2:0]     trig_o_hold_cnt_0;
-  reg        [ 2:0]     trig_o_hold_cnt_1;
+  reg        [ 3:0]     trig_o_hold_cnt_0;
+  reg        [ 3:0]     trig_o_hold_cnt_1;
 
   reg                   trigger_adc_a;
   reg                   trigger_adc_b;
@@ -245,18 +245,18 @@ module axi_adc_trigger #(
   // external trigger output hold 10 clock cycles on polarity change
   always @(posedge clk) begin
     // trigger_o[0] hold start
-    if ((trigger_o_m[0] ^ trigger_o_m_1[0]) & (trig_o_hold_cnt_0 == 3'h0)) begin
-      trig_o_hold_cnt_0 <= 3'h7;
+    if ((trigger_o_m[0] != trigger_o_m_1[0]) & (trig_o_hold_cnt_0 == 4'h0)) begin
+      trig_o_hold_cnt_0 <= 4'hf;
       trig_o_hold_0 <= trigger_o_m[0];
     end
-    if (trig_o_hold_cnt_0 != 3'h0) begin
-      trig_o_hold_cnt_0 <= trig_o_hold_cnt_0 - 3'h1;
+    if (trig_o_hold_cnt_0 != 4'h0) begin
+      trig_o_hold_cnt_0 <= trig_o_hold_cnt_0 - 4'h1;
     end
     trigger_o_m_1[0] <= trigger_o_m[0];
 
     // trigger_o[1] hold start
-    if ((trigger_o_m[1] ^ trigger_o_m_1[1]) & (trig_o_hold_cnt_1 == 3'h0)) begin
-      trig_o_hold_cnt_1 <= 3'h7;
+    if ((trigger_o_m[1] != trigger_o_m_1[1]) & (trig_o_hold_cnt_1 == 3'h0)) begin
+      trig_o_hold_cnt_1 <= 3'hf;
       trig_o_hold_1 <= trigger_o_m[1];
     end
     if (trig_o_hold_cnt_1 != 3'h0) begin
@@ -266,7 +266,7 @@ module axi_adc_trigger #(
 
     // hold
     trigger_o[0] <= (trig_o_hold_cnt_0 == 'd0) ? trigger_o_m[0] : trig_o_hold_0;
-    trigger_o[1] <= (trig_o_hold_cnt_0 == 'd0) ? trigger_o_m[1] : trig_o_hold_1;
+    trigger_o[1] <= (trig_o_hold_cnt_1 == 'd0) ? trigger_o_m[1] : trig_o_hold_1;
   end
 
   // - keep data in sync with the trigger. The trigger bypasses the variable fifo.
