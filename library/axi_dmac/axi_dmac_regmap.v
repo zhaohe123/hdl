@@ -261,12 +261,12 @@ axi_dmac_regmap_request #(
 );
 
 up_axi #(
-  .AXI_ADDRESS_WIDTH (12)
+  .AXI_ADDRESS_WIDTH (11)
 ) i_up_axi (
   .up_rstn(s_axi_aresetn),
   .up_clk(s_axi_aclk),
   .up_axi_awvalid(s_axi_awvalid),
-  .up_axi_awaddr(s_axi_awaddr),
+  .up_axi_awaddr(s_axi_awaddr[10:0]),
   .up_axi_awready(s_axi_awready),
   .up_axi_wvalid(s_axi_wvalid),
   .up_axi_wdata(s_axi_wdata),
@@ -276,7 +276,7 @@ up_axi #(
   .up_axi_bresp(s_axi_bresp),
   .up_axi_bready(s_axi_bready),
   .up_axi_arvalid(s_axi_arvalid),
-  .up_axi_araddr(s_axi_araddr),
+  .up_axi_araddr(s_axi_araddr[10:0]),
   .up_axi_arready(s_axi_arready),
   .up_axi_rvalid(s_axi_rvalid),
   .up_axi_rresp(s_axi_rresp),
